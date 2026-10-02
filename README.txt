@@ -20,9 +20,9 @@
   NEWS     — новости (сейчас там примеры с плашкой «Пример»)
 
 Публикация на GitHub Pages
-  1. Загрузите ВСЁ содержимое этой папки в корень репозитория spolekdia.
+  1. Загрузите ВСЁ содержимое этой папки в корень репозитория sitemapdiaspora.
   2. Settings → Pages → Source: «Deploy from a branch», ветка main, папка / (root).
-  3. Сайт откроется по адресу https://spolekgithabovic-maker.github.io/spolekdia/
+  3. Сайт откроется по адресу https://spolekgithabovic-maker.github.io/sitemapdiaspora/
   4. Если подключите свой домен — попросите Claude заменить адрес в файлах
      (канонические ссылки, sitemap.xml, robots.txt, 404.html).
   5. После любых изменений файлов увеличьте номер VERSION в sw.js
