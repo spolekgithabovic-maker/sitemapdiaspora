@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://spolekgithabovic-maker.github.io/spolekdia/sitemap.xml
