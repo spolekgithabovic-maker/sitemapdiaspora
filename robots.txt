@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /README.txt
 Disallow: /404.html
-Sitemap: https://spolekgithabovic-maker.github.io/sitemapdiaspora/sitemap.xml
+Sitemap: https://dczs.cz/sitemap.xml
