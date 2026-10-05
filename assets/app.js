@@ -39,6 +39,27 @@ const header = $("header.site"), menuToggle = $("#menuToggle"), mainNav = $("#ma
 function closeMenu(){ mainNav.classList.remove("open"); menuToggle.setAttribute("aria-expanded","false"); }
 menuToggle.addEventListener("click", () => menuToggle.setAttribute("aria-expanded", String(mainNav.classList.toggle("open"))));
 $$("a", mainNav).forEach(a => a.addEventListener("click", closeMenu));
+/* Если меню не помещается в шапку (узкий экран, крупный шрифт, длинный язык) — прячем его под кнопку */
+const headbar = $(".headbar"), brandEl = $(".brand");
+let fitting = false;
+function fitNav(){
+  if(fitting || !headbar) return; fitting = true;
+  const root = document.documentElement, was = root.classList.contains("nav-collapsed");
+  root.classList.remove("nav-collapsed");
+  let collapse = getComputedStyle(mainNav).display === "none";
+  if(!collapse){
+    const nr = mainNav.getBoundingClientRect(), br = brandEl.getBoundingClientRect();
+    collapse = headbar.scrollWidth > headbar.clientWidth + 1 || nr.left < br.right + 8;
+  }
+  root.classList.toggle("nav-collapsed", collapse);
+  if(!collapse && was) closeMenu();
+  fitting = false;
+}
+fitNav();
+addEventListener("resize", fitNav);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
+let fitKey = "";
+new MutationObserver(() => { const r = document.documentElement, k = r.className.replace(/\bnav-collapsed\b/, "").trim() + "|" + r.lang; if(k !== fitKey){ fitKey = k; fitNav(); } }).observe(document.documentElement, {attributes:true, attributeFilter:["class","lang"]});
 document.addEventListener("click", e => { if(!header.contains(e.target)) closeMenu(); });
 
 /* ---------- Реквизиты, e-mail, политика ---------- */
@@ -551,7 +572,9 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
 
 /* ---------- Офлайн и установка ---------- */
 if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){
-  addEventListener("load", () => navigator.serviceWorker.register("../sw.js", {scope:"../"}).catch(() => {}));
+  /* Когда на сайте выходит новая версия — один раз перезагружаем страницу, чтобы посетитель сразу видел обновление */
+  if(navigator.serviceWorker.controller){ let reloaded = false; navigator.serviceWorker.addEventListener("controllerchange", () => { if(!reloaded){ reloaded = true; location.reload(); } }); }
+  addEventListener("load", () => navigator.serviceWorker.register("../sw.js", {scope:"../", updateViaCache:"none"}).then(r => r.update()).catch(() => {}));
 }
 let deferred = null;
 addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; $("#installBtn").hidden = false; });

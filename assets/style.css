@@ -95,8 +95,8 @@ section{padding:96px 0;}
 /* ---------- Header ---------- */
 header.site{position:sticky; top:0; z-index:40; background:color-mix(in srgb, var(--bg) 84%, transparent); backdrop-filter:saturate(1.4) blur(14px); -webkit-backdrop-filter:saturate(1.4) blur(14px); border-bottom:1px solid transparent; transition:border-color .2s, box-shadow .2s; padding-top:env(safe-area-inset-top,0px);}
 header.site.scrolled{border-color:var(--line); box-shadow:0 6px 20px -16px rgba(21,44,87,.4);}
-.headbar{display:flex; align-items:center; gap:10px; padding:10px 24px; max-width:1320px; margin:0 auto; position:relative;}
-.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--heading); min-width:0; margin-right:auto;}
+.headbar{display:flex; align-items:center; gap:10px; padding:10px 24px; max-width:1640px; margin:0 auto; position:relative;}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--heading); min-width:0; margin-right:auto; flex:none;}
 .logo-tile{width:44px; height:44px; border-radius:13px; background:#fff; display:grid; place-items:center; flex:none; box-shadow:var(--shadow-sm); overflow:hidden;}
 .logo-tile img{width:38px; height:auto;}
 .brand .logo-tile{animation:logoIn 1s cubic-bezier(.2,.8,.2,1.2) both;}
@@ -121,8 +121,9 @@ nav.main a:hover{background:color-mix(in srgb, var(--orange-400) 18%, transparen
 .langs a[aria-current="true"]{background:var(--blue-700); color:#fff;}
 .menu-toggle{display:inline-grid;}
 @media(min-width:760px){.head-cta{display:inline-flex;}}
-@media(min-width:1500px){nav.main{display:flex;} .menu-toggle{display:none;}}
-@media(max-width:1499px){
+/* Меню в строку показывается, только если оно реально помещается (проверяет app.js → класс nav-collapsed) */
+@media(min-width:1100px){:root:not(.nav-collapsed) nav.main{display:flex;} :root:not(.nav-collapsed) .menu-toggle{display:none;}}
+@media all{
   nav.main.open{display:flex; flex-direction:column; position:absolute; top:100%; left:12px; right:12px; background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:8px; box-shadow:var(--shadow); max-height:75vh; overflow:auto;}
   nav.main.open a{padding:12px 14px; font-size:1rem;}
 }

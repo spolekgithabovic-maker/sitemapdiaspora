@@ -1,5 +1,5 @@
 /* Diaspora Care z.s. — офлайн-режим. При изменении файлов сайта увеличьте номер версии. */
-const VERSION = "dc-v5-6";
+const VERSION = "dc-v5-7";
 const FILES = [
  "./",
  "./assets/app.js",
@@ -40,5 +40,7 @@ self.addEventListener("fetch", e => {
       .catch(() => caches.match(req).then(r => r || caches.match("./index.html"))));
     return;
   }
-  e.respondWith(caches.match(req, {ignoreSearch: true}).then(r => r || fetch(req).then(res => { if(res.ok && res.type === "basic"){ const copy = res.clone(); caches.open(VERSION).then(c => c.put(req, copy)); } return res; })));
+  /* Сначала сеть (всегда свежие файлы), кэш — только без интернета */
+  e.respondWith(fetch(req).then(res => { if(res.ok && res.type === "basic"){ const copy = res.clone(); caches.open(VERSION).then(c => c.put(req, copy)); } return res; })
+    .catch(() => caches.match(req, {ignoreSearch: true})));
 });
