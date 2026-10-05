@@ -6,7 +6,8 @@ const L = window.T[LANG];
 const ORG = window.ORG || {};
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = u => { try{ const x = new URL(String(u), location.href); return x.protocol === "https:" ? x.href : ""; }catch(e){ return ""; } };
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isEasy = () => document.documentElement.classList.contains("easy");
 const SPEECH = { ru:"ru", uk:"uk", cs:"cs", en:"en" };
@@ -42,21 +43,21 @@ document.addEventListener("click", e => { if(!header.contains(e.target)) closeMe
 
 /* ---------- Реквизиты, e-mail, политика ---------- */
 function orgRows(){
-  const pend = '<dd class="pending">'+esc(L.org_pending)+'</dd>';
-  return [
-    [L.org_name_l, '<dd>'+esc(ORG.name)+'</dd>'],
-    [L.org_seat_l, '<dd>'+esc(L.contact_city)+'</dd>'],
-    [L.org_ico_l, ORG.ico ? '<dd>'+esc(ORG.ico)+'</dd>' : pend],
-    [L.org_reg_l, ORG.registered ? '<dd>'+esc(ORG.registered)+'</dd>' : pend],
-    [L.org_email_l, '<dd><a href="mailto:'+esc(ORG.email)+'">'+esc(ORG.email)+'</a></dd>']
-  ].map(r => '<div><dt>'+esc(r[0])+'</dt>'+r[1]+'</div>').join("");
+  const rows = [
+    [L.org_name_l, ORG.name],
+    [L.org_seat_l, ORG.seat],
+    [L.org_ico_l, ORG.ico],
+    [L.org_reg_l, ORG.register]
+  ].filter(r => r[1]).map(r => '<div><dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd></div>');
+  rows.push('<div><dt>'+esc(L.org_email_l)+'</dt><dd><a href="mailto:'+esc(ORG.email)+'">'+esc(ORG.email)+'</a></dd></div>');
+  return rows.join("");
 }
 $("#orgList").innerHTML = orgRows();
 $("#footOrg").innerHTML = orgRows();
 $$(".js-email").forEach(el => el.textContent = ORG.email);
 $$(".js-mail").forEach(el => el.href = "mailto:" + ORG.email);
 $("#privacyBody").innerHTML = window.POLICY[LANG]
-  .replace(/\{ICO\}/g, ORG.ico ? esc(ORG.ico) : esc(L.org_pending))
+  .replace(/\{ICO\}/g, esc(ORG.ico || "—")).replace(/\{SEAT\}/g, esc(ORG.seat || L.contact_city))
   .replace(/\{EMAIL\}/g, '<a href="mailto:'+esc(ORG.email)+'">'+esc(ORG.email)+'</a>');
 
 /* ---------- Фото основателей ---------- */
@@ -65,7 +66,7 @@ const NAME_KEY = {tereza:"c1_name", hanna:"c2_name", tana:"c3_name"};
 Object.keys(PH).forEach(p => {
   if(!PH[p]) return;
   const slot = $('.story-avatar[data-person="'+p+'"]'); if(!slot) return;
-  const img = new Image(); img.src = "../assets/img/" + PH[p]; img.alt = L[NAME_KEY[p]]; img.loading = "lazy";
+  const img = new Image(); if(!/^[\w.-]+\.(jpe?g|png|webp)$/i.test(PH[p])) return; img.src = "../assets/img/" + PH[p]; img.alt = L[NAME_KEY[p]]; img.loading = "lazy";
   img.onload = () => { slot.innerHTML = ""; slot.appendChild(img); };
 });
 
@@ -120,7 +121,7 @@ let pathLen = 0;
 function layoutStory(){
   if(!bubbles || !sp) return;
   const box = bubbles.getBoundingClientRect();
-  const pts = $$(".story-avatar, .next-you .slot", bubbles).map(el => {
+  const pts = $$(".story-avatar, .closing-logo .logo-tile, .next-you .slot", bubbles).map(el => {
     const r = el.getBoundingClientRect(); return [r.left - box.left + r.width/2, r.top - box.top + r.height/2];
   });
   if(pts.length < 2) return;
@@ -137,7 +138,7 @@ function layoutStory(){
 function progressStory(){
   if(!pathLen) return;
   const r = bubbles.getBoundingClientRect();
-  let p = (innerHeight*.7 - r.top) / r.height;
+  let p = (innerHeight*.8 - r.top) / Math.max(1, r.height - innerHeight*.2);
   if(reduce || isEasy()) p = 1;
   p = Math.max(0, Math.min(1, p));
   $(".draw", sp).style.strokeDashoffset = pathLen * (1-p);
@@ -380,7 +381,8 @@ function icsFor(ev){
 /* ---------- Пожертвования ---------- */
 (function donate(){
   const D = window.DONATE || {};
-  if(D.url){ const b = $("#donateBtn"); b.href = D.url; b.hidden = false; $("#donateNote").hidden = true; }
+  const dUrl = safeUrl(D.url);
+  if(dUrl){ const b = $("#donateBtn"); b.href = dUrl; b.hidden = false; $("#donateNote").hidden = true; }
   if(D.goal > 0){
     const nf = new Intl.NumberFormat(LANG === "uk" ? "uk-UA" : LANG);
     $("#goalBox").hidden = false;
@@ -421,15 +423,54 @@ document.addEventListener("keydown", e => {
   }
 });
 
+/* ---------- Капча (рисуется в браузере, без сторонних сервисов) ---------- */
+const CAP_CHARS = "ABCDEFGHJKLMNPRSTUVWXYZ23456789";
+function makeCaptcha(box){
+  box.innerHTML = '<label></label><div class="cap-row"><canvas width="336" height="112" role="img"></canvas>'+
+    '<button type="button" class="icon-btn cap-new"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></button>'+
+    '<input type="text" required autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="5" inputmode="text"></div>';
+  const id = "cap" + Math.random().toString(36).slice(2, 8);
+  const lbl = $("label", box), cv = $("canvas", box), inp = $("input", box), btn = $(".cap-new", box);
+  lbl.textContent = L.cap_label; lbl.htmlFor = id; inp.id = id;
+  cv.setAttribute("aria-label", L.cap_img); btn.setAttribute("aria-label", L.cap_refresh); btn.title = L.cap_refresh;
+  let code = "";
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  function draw(){
+    const arr = new Uint32Array(5); (window.crypto || window.msCrypto).getRandomValues(arr);
+    code = Array.from(arr, n => CAP_CHARS[n % CAP_CHARS.length]).join("");
+    const c = cv.getContext("2d"), W = cv.width, H = cv.height;
+    c.clearRect(0, 0, W, H); c.fillStyle = "#FFF8EF"; c.fillRect(0, 0, W, H);
+    for(let i = 0; i < 60; i++){ c.fillStyle = "rgba(31,76,140," + rnd(.05, .25) + ")"; c.beginPath(); c.arc(rnd(0, W), rnd(0, H), rnd(1, 3), 0, 7); c.fill(); }
+    for(let i = 0; i < 5; i++){ c.strokeStyle = i % 2 ? "rgba(227,115,18,.45)" : "rgba(47,102,219,.4)"; c.lineWidth = rnd(1.5, 3); c.beginPath(); c.moveTo(rnd(0, W*.2), rnd(0, H)); c.bezierCurveTo(rnd(0, W), rnd(0, H), rnd(0, W), rnd(0, H), rnd(W*.8, W), rnd(0, H)); c.stroke(); }
+    [...code].forEach((ch, i) => {
+      c.save(); c.translate(36 + i * 60 + rnd(-6, 6), H/2 + rnd(-8, 8)); c.rotate(rnd(-.45, .45));
+      c.font = "700 " + Math.round(rnd(50, 62)) + "px Georgia, serif"; c.textAlign = "center"; c.textBaseline = "middle";
+      c.fillStyle = i % 2 ? "#152C57" : "#B4570A"; c.fillText(ch, 0, 0); c.restore();
+    });
+    inp.value = "";
+  }
+  btn.addEventListener("click", () => { draw(); inp.focus(); });
+  draw();
+  return { ok: () => inp.value.trim().toUpperCase() === code, renew: draw, focus: () => inp.focus() };
+}
+
 /* ---------- Формы → FormSubmit ---------- */
-function wireForm(form, statusEl, btn, build, check, okKey){
+const clean = (s, max) => String(s || "").replace(/[<>]/g, "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim().slice(0, max || 4000);
+function wireForm(form, statusEl, btn, build, check, okKey, submitKey){
   const setStatus = (k, t) => { statusEl.className = "form-status " + k; statusEl.textContent = t; };
+  const capBox = $("[data-captcha]", form);
+  const cap = capBox ? makeCaptcha(capBox) : null;
+  const opened = Date.now();
+  let busy = false;
   form.addEventListener("submit", async e => {
     e.preventDefault();
+    if(busy) return;
     if(form.elements["_honey"].value) return;
     if(!form.checkValidity()){ setStatus("err", L.f_invalid); form.reportValidity(); return; }
     const extra = check && check(); if(extra){ setStatus("err", extra); return; }
-    const span = $("span", btn); btn.disabled = true; span.textContent = L.f_sending;
+    if(cap && !cap.ok()){ setStatus("err", L.cap_wrong); cap.renew(); cap.focus(); return; }
+    if(Date.now() - opened < 3000){ setStatus("err", L.cap_wrong); if(cap) cap.renew(); return; }
+    const span = $("span", btn); busy = true; btn.disabled = true; span.textContent = L.f_sending;
     try{
       const res = await fetch(window.FORM_ENDPOINT, {method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"},
         body: JSON.stringify(Object.assign(build(), {language:LANG.toUpperCase(), _template:"table", _captcha:"false", _honey:""}))});
@@ -437,23 +478,76 @@ function wireForm(form, statusEl, btn, build, check, okKey){
       if(res.ok && String(data.success) !== "false"){ setStatus("ok", L[okKey]); form.reset(); }
       else throw new Error("send");
     }catch(err){ setStatus("err", L.f_err.replace("{EMAIL}", ORG.email)); }
-    finally{ btn.disabled = false; span.textContent = btn.id === "vSubmit" ? L.vf_submit : L.f_submit; }
+    finally{ busy = false; btn.disabled = false; span.textContent = L[submitKey]; if(cap) cap.renew(); }
   });
 }
 const cf = $("#contactForm");
 wireForm(cf, $("#formStatus"), $("#fSubmit"), () => ({
-  name: cf.elements["name"].value.trim(), email: cf.elements["email"].value.trim(), message: cf.elements["message"].value.trim(),
-  _subject: "Diaspora Care — " + L.f_subject + " (" + LANG.toUpperCase() + ")", _replyto: cf.elements["email"].value.trim()
-}), null, "f_ok");
+  name: clean(cf.elements["name"].value, 100), email: clean(cf.elements["email"].value, 254), message: clean(cf.elements["message"].value, 4000),
+  _subject: "Diaspora Care — " + L.f_subject + " (" + LANG.toUpperCase() + ")", _replyto: clean(cf.elements["email"].value, 254)
+}), null, "f_ok", "f_submit");
 const vf = $("#volForm");
 const checked = (name, useKey) => $$('input[name="'+name+'"]:checked', vf).map(i => useKey ? L[i.dataset.key] : i.value);
 wireForm(vf, $("#volStatus"), $("#vSubmit"), () => ({
-  name: vf.elements["name"].value.trim(), email: vf.elements["email"].value.trim(),
-  languages: checked("langs").concat(vf.elements["langs_other"].value.trim() ? [vf.elements["langs_other"].value.trim()] : []).join(", "),
+  name: clean(vf.elements["name"].value, 100), email: clean(vf.elements["email"].value, 254),
+  languages: checked("langs").concat(vf.elements["langs_other"].value.trim() ? [clean(vf.elements["langs_other"].value, 200)] : []).join(", "),
   help: checked("ways", true).join("; "), time: checked("time", true).join(", "),
-  message: vf.elements["message"].value.trim(),
-  _subject: "Diaspora Care — " + L.vf_subject + " (" + LANG.toUpperCase() + ")", _replyto: vf.elements["email"].value.trim()
-}), () => checked("ways").length ? null : L.vf_pick, "vf_ok");
+  message: clean(vf.elements["message"].value, 2000),
+  _subject: "Diaspora Care — " + L.vf_subject + " (" + LANG.toUpperCase() + ")", _replyto: clean(vf.elements["email"].value, 254)
+}), () => checked("ways").length ? null : L.vf_pick, "vf_ok", "vf_submit");
+const ff = $("#fbForm");
+wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
+  name: clean(ff.elements["name"].value, 60), message: clean(ff.elements["message"].value, 1500),
+  publish_consent: "yes", page: location.pathname,
+  _subject: "Diaspora Care — " + L.fb_subject + " (" + LANG.toUpperCase() + ")"
+}), null, "fb_ok", "fb_submit");
+
+/* ---------- Помощь в цифрах ---------- */
+(function stats(){
+  const S = window.STATS; if(!S) return;
+  const nf = new Intl.NumberFormat(LANG === "uk" ? "uk-UA" : LANG);
+  $("#statRow").innerHTML = [["stories","stat_stories"],["ongoing","stat_ongoing"],["onko","stat_onko"]]
+    .filter(r => S[r[0]] > 0).map(r => '<div class="stat"><b data-count="'+(+S[r[0]])+'">0</b><span>'+esc(L[r[1]])+'</span></div>').join("");
+  function bars(el, obj, prefix){
+    const items = Object.keys(obj || {}).map(k => [k, +obj[k] || 0]).filter(x => x[1] > 0 && L[prefix + x[0]]).sort((a, b) => b[1] - a[1]);
+    const max = Math.max(1, ...items.map(x => x[1]));
+    el.innerHTML = items.map(x => '<li title="'+esc(L[prefix + x[0]])+': '+nf.format(x[1])+'"><span class="lbl">'+esc(L[prefix + x[0]])+'</span><span class="val">'+nf.format(x[1])+'</span>'+
+      '<span class="track" aria-hidden="true"><span class="fill" data-w="'+(x[1] / max * 100).toFixed(1)+'"></span></span></li>').join("");
+  }
+  bars($("#barServices"), S.services, "s_");
+  bars($("#barCountries"), S.countries, "c_");
+  const go = root => {
+    $$(".fill", root).forEach(f => f.style.width = f.dataset.w + "%");
+    $$("[data-count]", root).forEach(b => {
+      const to = +b.dataset.count;
+      if(reduce || isEasy()){ b.textContent = nf.format(to); return; }
+      const t0 = performance.now();
+      const step = t => { const k = Math.min(1, (t - t0) / 1200); b.textContent = nf.format(Math.round(to * (1 - Math.pow(1 - k, 3)))); if(k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    });
+  };
+  if("IntersectionObserver" in window){
+    const io = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting){ go(en.target); io.unobserve(en.target); } }), {threshold:.2});
+    [$("#statRow"), $("#barServices"), $("#barCountries")].forEach(el => io.observe(el));
+  } else go(document);
+})();
+
+/* ---------- Проекты ---------- */
+(function projects(){
+  const P = (window.PROJECTS || []).filter(p => p && p.title && p.title[LANG]);
+  const box = $("#projectList");
+  if(!P.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M4 7h16v12H4z"/><path d="M9 7V5h6v2M4 12h16"/>')+'<p>'+esc(L.projects_empty)+'</p></div>'; return; }
+  box.innerHTML = '<div class="project-grid">'+P.map(p => '<article class="card"><h3>'+esc(p.title[LANG])+'</h3><p>'+esc((p.text && p.text[LANG]) || "")+'</p></article>').join("")+'</div>';
+})();
+
+/* ---------- Отзывы (только одобренные) ---------- */
+(function feedback(){
+  const F = (window.FEEDBACK || []).filter(f => f && f.text);
+  const box = $("#fbList");
+  if(!F.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/>')+'<p>'+esc(L.fb_empty)+'</p></div>'; return; }
+  box.innerHTML = '<div class="fb-list">'+F.map(f => '<blockquote class="fb-item"><p>'+esc(String(f.text).slice(0, 1500))+'</p><footer>— '+esc(f.name || "")+
+    (f.date ? ' · '+esc(fmtDate(new Date(String(f.date).slice(0,10)+"T12:00"), {day:"numeric", month:"long", year:"numeric"})) : '')+'</footer></blockquote>').join("")+'</div>';
+})();
 
 /* ---------- Офлайн и установка ---------- */
 if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){

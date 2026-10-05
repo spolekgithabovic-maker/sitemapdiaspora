@@ -2,6 +2,8 @@
 <html lang="en" class="no-js">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none'; manifest-src 'self'; worker-src 'self'; media-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Diaspora Care z.s. — Help and adaptation centre</title>
 <meta name="description" content="Diaspora Care z.s. — a non-profit from Brno helping and supporting foreigners in Czechia with adaptation and integration.">
@@ -21,14 +23,14 @@
 <meta property="og:image" content="https://spolekgithabovic-maker.github.io/sitemapdiaspora/assets/img/banner.jpg">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "NGO", "name": "Diaspora Care z.s.", "alternateName": "Centrum pomoci a adaptace", "url": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/", "logo": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/assets/img/icon-512.png", "image": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/assets/img/banner.jpg", "email": "diasporacare@gmail.com", "description": "Diaspora Care z.s. — a non-profit from Brno helping and supporting foreigners in Czechia with adaptation and integration.", "nonprofitStatus": "Nonprofit", "address": {"@type": "PostalAddress", "addressLocality": "Brno", "addressCountry": "CZ"}, "areaServed": "CZ", "knowsLanguage": ["cs", "uk", "ru", "en"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "NGO", "name": "Diaspora Care z.s.", "alternateName": "Centrum pomoci a adaptace", "url": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/", "logo": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/assets/img/icon-512.png", "image": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/assets/img/banner.jpg", "email": "diasporacare@gmail.com", "description": "Diaspora Care z.s. — a non-profit from Brno helping and supporting foreigners in Czechia with adaptation and integration.", "nonprofitStatus": "Nonprofit", "address": {"@type": "PostalAddress", "streetAddress": "Jaroslava Foglara 866/12", "addressLocality": "Brno", "postalCode": "639 00", "addressCountry": "CZ"}, "taxID": "30061563", "legalName": "Diaspora Care z. s.", "areaServed": "CZ", "knowsLanguage": ["cs", "uk", "ru", "en"]}</script>
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" href="../assets/img/icon-192.png">
 <link rel="apple-touch-icon" href="../assets/img/icon-180.png">
 <link rel="preload" href="../assets/fonts/inter-400.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="../assets/fonts/lora.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="../assets/style.css">
-<script>document.documentElement.classList.remove("no-js");try{if(sessionStorage.getItem("dc_easy")==="1")document.documentElement.classList.add("easy")}catch(e){}</script>
+<script src="../assets/boot.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -43,6 +45,8 @@
       <a href="#about">About</a>
       <a href="#story">Our story</a>
       <a href="#services">Help</a>
+      <a href="#projects">Projects</a>
+      <a href="#feedback">Feedback</a>
       <a href="#phrases">Phrasebook</a>
       <a href="#events">Meetups</a>
       <a href="#volunteer">Volunteer</a>
@@ -66,7 +70,7 @@
 <section class="hero">
   <canvas id="wash" aria-hidden="true"></canvas>
   <div class="wrap">
-    <span class="badge">Help and adaptation centre for foreigners</span>
+    <span class="badge">Free help for foreigners in Czechia</span>
     <h1>Arriving in a new country doesn't mean being alone</h1>
     <p>Diaspora Care z.s. helps foreigners in Czechia settle into a new place: find their way around institutions, look for housing and work, practise Czech, and get support in difficult moments.</p>
     <div class="cta-row">
@@ -90,7 +94,7 @@
 
 <section class="about wash" id="about">
   <div class="wrap about-grid">
-    <div class="reveal section-head" style="margin-bottom:0">
+    <div class="reveal section-head flush">
       <span class="eyebrow">Who we are</span>
       <h2>About us</h2>
       <p class="lead">Diaspora Care z.s. is a non-profit, non-partisan association (spolek) based in Brno. We help foreigners in Czechia adapt and become part of society, protect their rights and dignity, and support good neighbourly relations with local people.</p>
@@ -125,7 +129,7 @@
     <div class="bubbles" id="bubbles">
       <svg id="storyPath" aria-hidden="true"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2F66DB"/><stop offset=".45" stop-color="#FF7E1F"/><stop offset="1" stop-color="#F3A24D"/></linearGradient></defs><path class="track"/><path class="draw"/></svg>
       <article class="bubble reveal">
-        <div class="story-avatar" data-person="tereza"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="16" r="7.5"/><path d="M10 40c1.5-8 7-12.5 14-12.5S36.5 32 38 40"/><path d="M12 38c6-3 18-6 26-1" stroke="#F3A24D" stroke-width="3"/></svg></div>
+        <div class="story-avatar" data-person="tereza"><svg class="portrait" viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(-8 -4) scale(1.16)"><g stroke="#152C57" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M30.5 47c-3-17 7-28.5 19.5-28.5S72.5 30 69.5 47c-1 6 3 11 .5 17-2.5 5-9 5-12 2H42c-3 3-9.5 3-12-2-2.5-6 1.5-11 .5-17z" fill="#fff"/><path d="M45.5 57v10.5h9V57" fill="#fff"/><path d="M17 104c1-18 15-31 33-31s32 13 33 31z" fill="#2F66DB"/><path d="M43 72.5l7 7.5 7-7.5" fill="#fff"/><path d="M35.6 43c0-10 6.4-17 14.4-17s14.4 7 14.4 17c0 10-6.6 17.4-14.4 17.4S35.6 53 35.6 43z" fill="#fff"/><path d="M35.8 39.5c1-9 7-14.5 14.4-14.5s13.4 5.6 14 14c-7-1.4-13.4-4.6-17.6-9.6-2.2 4.8-5.6 8-10.8 10.1z" fill="#fff"/></g><g fill="none" stroke="#152C57" stroke-width="2" stroke-linecap="round"><path d="M41.2 40.6q3.2-1.8 6.2 0M52.6 40.6q3.2-1.8 6.2 0"/><path d="M49 51.2q1 1 2 0"/><path d="M45 54.6q5 3.6 10 0"/></g><circle cx="44.6" cy="45.4" r="2.1" fill="#152C57"/><circle cx="55.4" cy="45.4" r="2.1" fill="#152C57"/><circle cx="41" cy="51" r="2.6" fill="#F3A24D" opacity=".55"/><circle cx="59" cy="51" r="2.6" fill="#F3A24D" opacity=".55"/><g></g></g></svg></div>
         <div>
           <h3>Tereza</h3>
           <span class="tag">Humble beginnings, great success</span>
@@ -134,7 +138,7 @@
         </div>
       </article>
       <article class="bubble warm reveal">
-        <div class="story-avatar" data-person="hanna"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="16" r="7.5"/><path d="M10 40c1.5-8 7-12.5 14-12.5S36.5 32 38 40"/><path d="M12 38c6-3 18-6 26-1" stroke="#2F66DB" stroke-width="3" opacity=".6"/></svg></div>
+        <div class="story-avatar" data-person="hanna"><svg class="portrait" viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(-8 -4) scale(1.16)"><g stroke="#152C57" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><circle cx="50" cy="18.5" r="8" fill="#fff"/><path d="M45 23h10" fill="none"/><path d="M34.5 45c0-13 7-20.5 15.5-20.5S65.5 32 65.5 45c0 4-1 7-2.2 9.5L36.7 54.5C35.5 52 34.5 49 34.5 45z" fill="#fff"/><path d="M45.5 57v10.5h9V57" fill="#fff"/><path d="M17 104c1-18 15-31 33-31s32 13 33 31z" fill="#FF7E1F"/><path d="M41 72.6q9 8 18 0" fill="none"/><circle cx="50" cy="80" r="2.2" fill="#fff"/><path d="M35.6 43c0-10 6.4-17 14.4-17s14.4 7 14.4 17c0 10-6.6 17.4-14.4 17.4S35.6 53 35.6 43z" fill="#fff"/><path d="M36 39c1.6-8.4 7-12.6 14-12.6s12.4 4.2 14 12.6c-4.4-3.4-9-5-14-5s-9.6 1.6-14 5z" fill="#fff"/></g><g fill="none" stroke="#152C57" stroke-width="2" stroke-linecap="round"><path d="M41.2 40.6q3.2-1.8 6.2 0M52.6 40.6q3.2-1.8 6.2 0"/><path d="M49 51.2q1 1 2 0"/><path d="M45 54.6q5 3.6 10 0"/></g><circle cx="44.6" cy="45.4" r="2.1" fill="#152C57"/><circle cx="55.4" cy="45.4" r="2.1" fill="#152C57"/><circle cx="41" cy="51" r="2.6" fill="#F3A24D" opacity=".55"/><circle cx="59" cy="51" r="2.6" fill="#F3A24D" opacity=".55"/><g></g></g></svg></div>
         <div>
           <h3>Hanna</h3>
           <span class="tag">Pass kindness on</span>
@@ -144,12 +148,25 @@
         </div>
       </article>
       <article class="bubble c3 reveal">
-        <div class="story-avatar" data-person="tana"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="16" r="7.5"/><path d="M10 40c1.5-8 7-12.5 14-12.5S36.5 32 38 40"/><path d="M12 38c6-3 18-6 26-1" stroke="#F3A24D" stroke-width="3"/></svg></div>
+        <div class="story-avatar" data-person="tana"><svg class="portrait" viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(-8 -4) scale(1.16)"><g stroke="#152C57" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M32.5 45c0-15 7.8-23.5 17.5-23.5S67.5 30 67.5 45v14h-35z" fill="#fff"/><path d="M45.5 57v10.5h9V57" fill="#fff"/><path d="M17 104c1-18 15-31 33-31s32 13 33 31z" fill="#1F4C8C"/><path d="M41 72l9 6 9-6" fill="#fff"/><path d="M50 78v22" fill="none"/><path d="M33 54c-1.4 9-1.4 17 .6 24 2.8 1.4 5.8 1.4 8.2-.4-1.2-7.4-1.2-14.6.2-21.6z" fill="#fff"/><path d="M67 54c1.4 9 1.4 17-.6 24-2.8 1.4-5.8 1.4-8.2-.4 1.2-7.4 1.2-14.6-.2-21.6z" fill="#fff"/><path d="M35.6 43c0-10 6.4-17 14.4-17s14.4 7 14.4 17c0 10-6.6 17.4-14.4 17.4S35.6 53 35.6 43z" fill="#fff"/><path d="M35.6 41c3.4-2 7.4-5.4 10-10 4 4 11.2 6.2 18.6 6.6-1.4-7.2-7-12-14.2-12-8 0-13.8 6.2-14.4 15.4z" fill="#fff"/></g><g fill="none" stroke="#152C57" stroke-width="2" stroke-linecap="round"><path d="M41.2 40.6q3.2-1.8 6.2 0M52.6 40.6q3.2-1.8 6.2 0"/><path d="M49 51.2q1 1 2 0"/><path d="M45 54.6q5 3.6 10 0"/></g><circle cx="44.6" cy="45.4" r="2.1" fill="#152C57"/><circle cx="55.4" cy="45.4" r="2.1" fill="#152C57"/><circle cx="41" cy="51" r="2.6" fill="#F3A24D" opacity=".55"/><circle cx="59" cy="51" r="2.6" fill="#F3A24D" opacity=".55"/><g></g></g></svg></div>
         <div>
           <h3>Táňa</h3>
           <span class="tag">Two years from receiving help to giving it</span>
           <p>She arrived from eastern Ukraine with her husband and her sick mother. In Czechia she quickly learned the language, started working and, with the help of others, arranged treatment for her mother.</p>
+          <span class="handoff"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span>We joined forces</span></span>
         </div>
+      </article>
+      <article class="closing reveal">
+      <div class="closing-logo"><span class="logo-tile"><img src="../assets/img/logo.jpg" alt="Diaspora Care z.s." width="84" height="76"></span><small>Centrum pomoci a adaptace</small></div>
+      <div>
+        <h3>We joined forces</h3>
+        <ul class="values">
+          <li><svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.8-4.4 4.3 1 6.1L12 17l-5.4 2.8 1-6.1-4.4-4.3 6.1-.8z"/></svg><span>Experience</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg><span>Humanity</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="m11 17 2 2a1.4 1.4 0 0 0 2-2"/><path d="m14 14 2.5 2.5a1.4 1.4 0 0 0 2-2l-3.8-3.8a3 3 0 0 0-4.2 0l-.9.9a1.4 1.4 0 0 1-2-2l2.8-2.8a5 5 0 0 1 6-.8l.5.3a3 3 0 0 0 2 .4H21"/><path d="M3 3 2 14l6.5 6.5a1.4 1.4 0 0 0 2-2"/></svg><span>Understanding</span></li>
+        </ul>
+        <p>We understand how you feel. We know what you fear. We know how to help.</p>
+      </div>
       </article>
       <article class="next-you reveal">
         <div class="slot story-avatar-like"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 14v20M14 24h20"/></svg></div>
@@ -162,19 +179,6 @@
           </div>
         </div>
       </article>
-    </div>
-
-    <div class="closing reveal">
-      <div class="closing-logo"><span class="logo-tile"><img src="../assets/img/logo.jpg" alt="Diaspora Care z.s." width="84" height="76"></span><small>Centrum pomoci a adaptace</small></div>
-      <div>
-        <h3>We joined forces</h3>
-        <ul class="values">
-          <li><svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.8-4.4 4.3 1 6.1L12 17l-5.4 2.8 1-6.1-4.4-4.3 6.1-.8z"/></svg><span>Experience</span></li>
-          <li><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg><span>Humanity</span></li>
-          <li><svg viewBox="0 0 24 24"><path d="m11 17 2 2a1.4 1.4 0 0 0 2-2"/><path d="m14 14 2.5 2.5a1.4 1.4 0 0 0 2-2l-3.8-3.8a3 3 0 0 0-4.2 0l-.9.9a1.4 1.4 0 0 1-2-2l2.8-2.8a5 5 0 0 1 6-.8l.5.3a3 3 0 0 0 2 .4H21"/><path d="M3 3 2 14l6.5 6.5a1.4 1.4 0 0 0 2-2"/></svg><span>Understanding</span></li>
-        </ul>
-        <p>We understand how you feel. We know what you fear. We know how to help.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -223,7 +227,54 @@
         </div></div>
       </details>
     </div>
-    <p class="note reveal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Psychological support, art therapy and interpreting are provided by qualified professionals. On legal matters we offer basic orientation and help you find a professional lawyer.</span></p>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">What we do</span>
+      <h2>Projects and our help in numbers</h2>
+      <p class="lead">Since early 2022 — even before our official registration — we have been helping people who came to Czechia. Here is what we achieved.</p>
+    </div>
+    <div class="stat-row reveal" id="statRow"></div>
+    <div class="charts">
+      <figure class="chart-card reveal">
+        <figcaption><h3>What we helped with</h3><p>Number of stories per area. We often helped one person in several areas at once.</p></figcaption>
+        <ol class="bars" id="barServices"></ol>
+      </figure>
+      <figure class="chart-card reveal">
+        <figcaption><h3>Where the people we helped come from</h3></figcaption>
+        <ol class="bars blue" id="barCountries"></ol>
+        <p class="privacy-note"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>The figures are aggregated: we never publish names or other personal details.</span></p>
+      </figure>
+    </div>
+    <h3 class="sub-title reveal">Our projects</h3>
+    <div id="projectList" class="reveal"></div>
+  </div>
+</section>
+
+<section class="feedback wash" id="feedback">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Your opinion</span>
+      <h2>Feedback</h2>
+      <p class="lead">Share an impression, an idea or a remark. Feedback appears on the site only after a moderator has checked it.</p>
+    </div>
+    <div class="fb-grid">
+      <div id="fbList" class="reveal"></div>
+      <form class="cform reveal" id="fbForm" novalidate>
+        <h3>Leave feedback</h3>
+        <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="field"><label for="fbName">Name (how to sign your feedback)</label><input id="fbName" name="name" autocomplete="given-name" required maxlength="60"></div>
+        <div class="field"><label for="fbText">Your feedback</label><textarea id="fbText" name="message" rows="4" required maxlength="1500"></textarea><p class="hint">All feedback is moderated. Please don't include personal details or health information.</p></div>
+        <label class="check"><input type="checkbox" id="fbConsent" required><span>I agree that my feedback and name may be published on the site after moderation.</span></label>
+        <button type="button" class="linklike" data-privacy>Privacy policy</button>
+        <div class="captcha" data-captcha></div>
+        <p class="form-status" id="fbStatus" role="status" aria-live="polite"></p>
+        <button type="submit" class="btn btn-primary" id="fbSubmit"><span>Send for moderation</span><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -260,7 +311,7 @@
       <p class="lead">We are open about who we are and how our work is organised.</p>
     </div>
     <div class="trust-grid">
-      <div class="card reveal"><span class="icon-orb"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span><h3>Official status</h3><p>Diaspora Care z.s. is an association (spolek) under Czech law, based in Brno. We are non-profit and non-partisan.</p></div>
+      <div class="card reveal"><span class="icon-orb"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></span><h3>Official status</h3><p>Diaspora Care z. s. is an association (spolek) entered in the register of associations kept by the Regional Court in Brno (L 32394), IČO 30061563. We are non-profit and non-partisan.</p></div>
       <div class="card reveal"><span class="icon-orb warm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.5 9c-.4-1-1.4-1.5-2.5-1.5-1.5 0-2.5.8-2.5 2s1 1.7 2.5 2 2.5.9 2.5 2.1-1 2-2.5 2c-1.2 0-2.2-.6-2.6-1.6M12 6v1.5M12 16.5V18"/></svg></span><h3>Where the money goes</h3><p>We are funded by subsidies, grants and donations. Profit is never shared among members or management — all funds go solely to our statutory purpose.</p></div>
       <div class="card reveal"><span class="icon-orb"><svg viewBox="0 0 24 24"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M2.5 19c.5-3 2.3-5 4.5-5s4 2 4.5 5M12.5 19c.5-3 2.3-5 4.5-5s4 2 4.5 5"/></svg></span><h3>Cooperation</h3><p>We are open to cooperation with public authorities, healthcare facilities, schools, employers and other non-profit organisations.</p></div>
     </div>
@@ -268,13 +319,18 @@
       <h3>Organisation details</h3>
       <dl class="org-list" id="orgList"></dl>
     </div>
+    <div class="doc-box reveal">
+      <span class="icon-orb warm"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>
+      <div><h3>Statutes of the association</h3><p>The official text of the statutes in Czech.</p></div>
+      <a class="btn btn-primary btn-sm" href="../assets/docs/Stanovy_Diaspora_Care_zs.pdf" download hreflang="cs" type="application/pdf"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><span>Download the statutes (PDF, Czech)</span></a>
+    </div>
   </div>
 </section>
 
 <section class="volunteer" id="volunteer">
   <div class="wrap">
     <div class="vol-card reveal">
-      <div class="section-head" style="margin-bottom:0">
+      <div class="section-head flush">
         <span class="eyebrow">Join us</span>
         <h2>Become a volunteer</h2>
         <p class="lead">You don't need to be a lawyer or a psychologist to help. Your time, your languages and the wish to support someone nearby are what count.</p>
@@ -291,8 +347,8 @@
           <h3>Volunteer form</h3>
           <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="form-grid2">
-            <div class="field"><label for="vName">Name</label><input id="vName" name="name" autocomplete="name" required></div>
-            <div class="field"><label for="vEmail">E-mail</label><input id="vEmail" name="email" type="email" autocomplete="email" required></div>
+            <div class="field"><label for="vName">Name</label><input id="vName" name="name" autocomplete="name" required maxlength="100"></div>
+            <div class="field"><label for="vEmail">E-mail</label><input id="vEmail" name="email" type="email" autocomplete="email" required maxlength="254"></div>
           </div>
           <fieldset><legend>Which languages do you speak?</legend>
             <div class="checks">
@@ -301,7 +357,7 @@
               <label><input type="checkbox" name="langs" value="русский">русский</label>
               <label><input type="checkbox" name="langs" value="English">English</label>
             </div>
-            <div class="field"><label for="vLangOther">Other languages</label><input id="vLangOther" name="langs_other"></div>
+            <div class="field"><label for="vLangOther">Other languages</label><input id="vLangOther" name="langs_other" maxlength="200"></div>
           </fieldset>
           <fieldset><legend>How would you like to help?</legend>
             <div class="checks" id="vWays">
@@ -318,9 +374,10 @@
               <label><input type="checkbox" name="time" data-key="vf_t3"><span>Weekends</span></label>
             </div>
           </fieldset>
-          <div class="field"><label for="vMsg">A few words about yourself (optional)</label><textarea id="vMsg" name="message" rows="3" style="min-height:90px"></textarea></div>
+          <div class="field"><label for="vMsg">A few words about yourself (optional)</label><textarea id="vMsg" name="message" rows="3" class="short" maxlength="2000"></textarea></div>
           <label class="check"><input type="checkbox" id="vConsent" required><span>I agree to my data being processed to organise volunteering.</span></label>
           <button type="button" class="linklike" data-privacy>Privacy policy</button>
+          <div class="captcha" data-captcha></div>
           <p class="form-status" id="volStatus" role="status" aria-live="polite"></p>
           <button type="submit" class="btn btn-primary" id="vSubmit"><span>Send the form</span><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
         </form>
@@ -338,7 +395,7 @@
           <h2>Support our work</h2>
           <p>We work thanks to subsidies, grants and donations. Every contribution goes to helping real people — those just starting their life in Czechia.</p>
           <div class="cta-row">
-            <a href="#" class="btn btn-primary" id="donateBtn" target="_blank" rel="noopener" hidden><span>Donate via Darujme.cz</span></a>
+            <a href="#" class="btn btn-primary" id="donateBtn" target="_blank" rel="noopener noreferrer" hidden><span>Donate via Darujme.cz</span></a>
             <a href="#contact" class="btn btn-ghost" id="partnerBtn"><span>Become a partner</span></a>
           </div>
           <div class="goal" id="goalBox" hidden>
@@ -371,7 +428,7 @@
 
 <section class="contact wash" id="contact">
   <div class="wrap contact-grid">
-    <div class="reveal section-head" style="margin-bottom:0">
+    <div class="reveal section-head flush">
       <span class="eyebrow">Write to us</span>
       <h2>Get in touch</h2>
       <p class="lead">Tell us what you need help with, or how you'd like to help. We'll reply by e-mail and help you take the first step.</p>
@@ -382,11 +439,12 @@
     </div>
     <form class="cform reveal" id="contactForm" novalidate>
       <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <div class="field"><label for="fName">Name</label><input id="fName" name="name" autocomplete="name" required></div>
-      <div class="field"><label for="fEmail">E-mail</label><input id="fEmail" name="email" type="email" autocomplete="email" required></div>
-      <div class="field" id="fMsgField"><label for="fMsg">Message</label><textarea id="fMsg" name="message" rows="5" required aria-describedby="fHint"></textarea><p class="hint" id="fHint">Please don't include health details in the form — we'll discuss anything necessary in person.</p></div>
+      <div class="field"><label for="fName">Name</label><input id="fName" name="name" autocomplete="name" required maxlength="100"></div>
+      <div class="field"><label for="fEmail">E-mail</label><input id="fEmail" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+      <div class="field" id="fMsgField"><label for="fMsg">Message</label><textarea id="fMsg" name="message" rows="5" required maxlength="4000" aria-describedby="fHint"></textarea><p class="hint" id="fHint">Please don't include health details in the form — we'll discuss anything necessary in person.</p></div>
       <label class="check"><input type="checkbox" id="fConsent" required><span>I have read the privacy policy and agree to my data being processed so that you can reply.</span></label>
       <button type="button" class="linklike" data-privacy>Privacy policy</button>
+      <div class="captcha" data-captcha></div>
       <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
       <button type="submit" class="btn btn-primary" id="fSubmit"><span>Send</span><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
     </form>
@@ -413,6 +471,8 @@
           <a href="#about">About</a>
           <a href="#story">Our story</a>
           <a href="#services">Help</a>
+          <a href="#projects">Projects</a>
+          <a href="#feedback">Feedback</a>
           <a href="#phrases">Phrasebook</a>
           <a href="#events">Meetups</a>
           <a href="#trust">Transparency</a>
@@ -420,6 +480,7 @@
           <a href="#support">Support</a>
           <a href="#news">News</a>
           <a href="#contact">Contact</a>
+          <a href="../assets/docs/Stanovy_Diaspora_Care_zs.pdf" download hreflang="cs" type="application/pdf">Statutes (PDF)</a>
           <button type="button" data-privacy>Privacy policy</button>
         </div>
       </div>

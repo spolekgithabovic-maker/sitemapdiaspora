@@ -2,6 +2,8 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; worker-src 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Diaspora Care z.s. — Centrum pomoci a adaptace</title>
 <meta name="description" content="Diaspora Care z.s. — pomoc a podpora cizinců v Česku · помощь иностранцам в Чехии · допомога іноземцям у Чехії · help for foreigners in Czechia.">
@@ -11,20 +13,12 @@
 <link rel="alternate" hreflang="cs" href="https://spolekgithabovic-maker.github.io/sitemapdiaspora/cs/">
 <link rel="alternate" hreflang="en" href="https://spolekgithabovic-maker.github.io/sitemapdiaspora/en/">
 <link rel="alternate" hreflang="x-default" href="https://spolekgithabovic-maker.github.io/sitemapdiaspora/">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "NGO", "name": "Diaspora Care z.s.", "alternateName": "Centrum pomoci a adaptace", "url": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/", "logo": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/assets/img/icon-512.png", "image": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/assets/img/banner.jpg", "email": "diasporacare@gmail.com", "description": "Diaspora Care z.s. — neziskový spolek z Brna: pomoc a podpora cizinců v Česku, adaptace a integrace.", "nonprofitStatus": "Nonprofit", "address": {"@type": "PostalAddress", "addressLocality": "Brno", "addressCountry": "CZ"}, "areaServed": "CZ", "knowsLanguage": ["cs", "uk", "ru", "en"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "NGO", "name": "Diaspora Care z.s.", "alternateName": "Centrum pomoci a adaptace", "url": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/", "logo": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/assets/img/icon-512.png", "image": "https://spolekgithabovic-maker.github.io/sitemapdiaspora/assets/img/banner.jpg", "email": "diasporacare@gmail.com", "description": "Diaspora Care z.s. — neziskový spolek z Brna: pomoc a podpora cizinců v Česku, adaptace a integrace.", "nonprofitStatus": "Nonprofit", "address": {"@type": "PostalAddress", "streetAddress": "Jaroslava Foglara 866/12", "addressLocality": "Brno", "postalCode": "639 00", "addressCountry": "CZ"}, "taxID": "30061563", "legalName": "Diaspora Care z. s.", "areaServed": "CZ", "knowsLanguage": ["cs", "uk", "ru", "en"]}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="assets/img/icon-192.png">
 <link rel="stylesheet" href="assets/style.css">
-<script>
-(function(){
-  var L=["ru","uk","cs","en"], pick=null;
-  try{ var s=localStorage.getItem("dc_lang"); if(L.indexOf(s)>-1) pick=s; }catch(e){}
-  if(!pick){ var langs=(navigator.languages||[navigator.language||""]);
-    for(var i=0;i<langs.length && !pick;i++){ var c=(langs[i]||"").slice(0,2).toLowerCase(); if(c==="sk") c="cs"; if(L.indexOf(c)>-1) pick=c; } }
-  location.replace((pick||"ru")+"/index.html"+location.hash);
-})();
-</script>
-<style>.choose{min-height:100vh; display:grid; place-items:center; text-align:center; padding:24px;} .choose .langs-big{display:grid; gap:12px; grid-template-columns:repeat(2,minmax(140px,1fr)); margin-top:24px;} .choose .logo-tile{width:96px;height:96px;margin:0 auto 16px;border-radius:26px} .choose .logo-tile img{width:84px}</style>
+<script src="assets/boot.js"></script>
+<script src="assets/root.js"></script>
 </head>
 <body>
 <main class="choose">

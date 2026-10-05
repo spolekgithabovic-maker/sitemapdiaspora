@@ -6,9 +6,10 @@
 
 /* Данные организации. IČO и дату регистрации впишите, когда они будут. */
 window.ORG = {
-  name: "Diaspora Care z.s.",
-  ico: "",            // например "12345678"
-  registered: "",     // например "01.07.2026"
+  name: "Diaspora Care z. s.",
+  ico: "30061563",
+  seat: "Jaroslava Foglara 866/12, Štýřice, 639 00 Brno",
+  register: "L 32394, Krajský soud v Brně",   // spisová značka ve spolkovém rejstříku
   email: "diasporacare@gmail.com"
 };
 
@@ -55,3 +56,28 @@ window.NEWS = [
     title: { ru: "Волонтёры на старте", uk: "Волонтери на старті", cs: "Dobrovolníci na startu", en: "Volunteers getting started" },
     text:  { ru: "Собираем первую команду волонтёров — рассказываем, как к ней присоединиться.", uk: "Збираємо першу команду волонтерів — розповідаємо, як до неї приєднатися.", cs: "Sestavujeme první tým dobrovolníků — popisujeme, jak se k němu přidat.", en: "We're building our first volunteer team — here's how to join." } }
 ];
+
+/* Помощь в цифрах (с начала 2022 года). Только обобщённые числа —
+   никаких имён и личных данных. Ключи направлений: psy, health, housing,
+   adapt, other, offices, work; стран: UA, MD, RU, other. */
+window.STATS = {
+  stories: 59,      // историй помощи
+  ongoing: 27,      // помощь продолжается
+  onko: 7,          // сопровождение при онкологическом лечении
+  services: { psy: 50, health: 39, housing: 32, adapt: 26, other: 24, offices: 21, work: 13 },
+  countries: { UA: 49, MD: 5, RU: 3, other: 2 }
+};
+
+/* Проекты. Пример (уберите // чтобы включить):
+window.PROJECTS = [
+  { title: { ru: "Название", uk: "Назва", cs: "Název", en: "Title" },
+    text:  { ru: "Описание", uk: "Опис", cs: "Popis", en: "Description" } }
+];
+*/
+window.PROJECTS = [];
+
+/* Отзывы — ТОЛЬКО одобренные модератором. Отзывы с сайта приходят
+   на e-mail с темой «отзыв на модерацию»; чтобы опубликовать, добавьте
+   его сюда. Текст показывается как есть, на языке автора.
+   Пример: { name: "Ольга", date: "2026-10-05", text: "Спасибо за помощь!" } */
+window.FEEDBACK = [];
