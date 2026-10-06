@@ -10,7 +10,7 @@ window.ORG = {
   ico: "30061563",
   seat: "Jaroslava Foglara 866/12, Štýřice, 639 00 Brno",
   register: "L 32394, Krajský soud v Brně",   // spisová značka ve spolkovém rejstříku
-  email: "diasporacare@gmail.com"
+  email: "diasporacare22@gmail.com"
 };
 
 /* Фото основателей: путь к файлу относительно папки assets/img,
