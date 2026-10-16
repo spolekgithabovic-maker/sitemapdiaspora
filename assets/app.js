@@ -477,7 +477,7 @@ function makeCaptcha(box){
 
 /* ---------- Формы → FormSubmit ---------- */
 const clean = (s, max) => String(s || "").replace(/[<>]/g, "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim().slice(0, max || 4000);
-function wireForm(form, statusEl, btn, build, check, okKey, submitKey){
+function wireForm(form, statusEl, btn, build, check, okKey, submitKey, endpoint){
   const setStatus = (k, t) => { statusEl.className = "form-status " + k; statusEl.textContent = t; };
   const capBox = $("[data-captcha]", form);
   const cap = capBox ? makeCaptcha(capBox) : null;
@@ -493,7 +493,7 @@ function wireForm(form, statusEl, btn, build, check, okKey, submitKey){
     if(Date.now() - opened < 3000){ setStatus("err", L.cap_wrong); if(cap) cap.renew(); return; }
     const span = $("span", btn); busy = true; btn.disabled = true; span.textContent = L.f_sending;
     try{
-      const res = await fetch(window.FORM_ENDPOINT, {method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"},
+      const res = await fetch(endpoint || window.FORM_ENDPOINT, {method:"POST", headers:{"Content-Type": endpoint ? "text/plain;charset=utf-8" : "application/json","Accept":"application/json"},
         body: JSON.stringify(Object.assign(build(), {language:LANG.toUpperCase(), _template:"table", _captcha:"false", _honey:""}))});
       const data = await res.json().catch(() => ({}));
       if(res.ok && String(data.success) !== "false"){ setStatus("ok", L[okKey]); form.reset(); }
@@ -521,7 +521,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
   name: clean(ff.elements["name"].value, 60), message: clean(ff.elements["message"].value, 1500),
   publish_consent: "yes", page: location.pathname,
   _subject: "Diaspora Care — " + L.fb_subject + " (" + LANG.toUpperCase() + ")"
-}), null, "fb_ok", "fb_submit");
+}), null, "fb_ok", "fb_submit", window.FEEDBACK_API || "");
 
 /* ---------- Помощь в цифрах ---------- */
 (function stats(){
@@ -563,11 +563,27 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
 
 /* ---------- Отзывы (только одобренные) ---------- */
 (function feedback(){
-  const F = (window.FEEDBACK || []).filter(f => f && f.text);
   const box = $("#fbList");
-  if(!F.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/>')+'<p>'+esc(L.fb_empty)+'</p></div>'; return; }
-  box.innerHTML = '<div class="fb-list">'+F.map(f => '<blockquote class="fb-item"><p>'+esc(String(f.text).slice(0, 1500))+'</p><footer>— '+esc(f.name || "")+
-    (f.date ? ' · '+esc(fmtDate(new Date(String(f.date).slice(0,10)+"T12:00"), {day:"numeric", month:"long", year:"numeric"})) : '')+'</footer></blockquote>').join("")+'</div>';
+  /* text — строка или переводы { ru, uk, cs, en }; показываем на языке страницы */
+  const txt = t => t && typeof t === "object" ? (t[LANG] || t.cs || t.ru || t.uk || t.en || "") : String(t || "");
+  const render = list => {
+    const F = list.filter(f => f && txt(f.text));
+    if(!F.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/>')+'<p>'+esc(L.fb_empty)+'</p></div>'; return; }
+    box.innerHTML = '<div class="fb-list">'+F.map(f => '<blockquote class="fb-item"><p>'+esc(txt(f.text).slice(0, 1500))+'</p><footer>— '+esc(f.name || "")+
+      (f.date ? ' · '+esc(fmtDate(new Date(String(f.date).slice(0,10)+"T12:00"), {day:"numeric", month:"long", year:"numeric"})) : '')+'</footer></blockquote>').join("")+'</div>';
+  };
+  const base = window.FEEDBACK || [];
+  render(base);
+  /* Одобренные по e-mail отзывы подгружаются из Google-таблицы; новые — сверху */
+  if(window.FEEDBACK_API){
+    fetch(window.FEEDBACK_API + "?action=list").then(r => r.json()).then(list => {
+      if(!Array.isArray(list)) return;
+      const key = f => f.name + "|" + f.date;
+      const seen = new Set(base.map(key));
+      const extra = list.filter(f => f && f.text && !seen.has(key(f))).slice(0, 50);
+      if(extra.length) render(extra.concat(base));
+    }).catch(() => {});
+  }
 })();
 
 /* ---------- Офлайн и установка ---------- */

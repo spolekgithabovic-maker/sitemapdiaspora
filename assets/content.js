@@ -20,6 +20,11 @@ window.PHOTOS = { tereza: "", hanna: "", tana: "" };
 /* Адрес отправки форм (сервис FormSubmit → e-mail организации). */
 window.FORM_ENDPOINT = "https://formsubmit.co/ajax/" + window.ORG.email;
 
+/* Отзывы с модерацией по e-mail (Google Apps Script). Сюда вставляется
+   адрес веб-приложения вида https://script.google.com/macros/s/.../exec
+   Пусто — отзывы идут по почте через FormSubmit, публикуются вручную ниже. */
+window.FEEDBACK_API = "";
+
 /* Сбор пожертвований. Пока url пустой — показывается заметка,
    что пожертвования подключим позже. goal и raised — суммы в Kč;
    если goal = 0, шкала не показывается. */
@@ -78,8 +83,12 @@ window.PROJECTS = [];
 
 /* Отзывы — ТОЛЬКО одобренные модератором. Отзывы с сайта приходят
    на e-mail с темой «отзыв на модерацию»; чтобы опубликовать, добавьте
-   его сюда. Текст показывается как есть, на языке автора.
+   его сюда. text — строка (на языке автора) или перевод на каждый язык: { ru, uk, cs, en }.
    Пример: { name: "Ольга", date: "2026-10-05", text: "Спасибо за помощь!" } */
 window.FEEDBACK = [
-  { name: "Tatiana", date: "2026-10-15", text: "Děkuji vám za doprovod na úřad práce. Bylo pro mě důležité pochopit a vysvětlit specialistovi, které rekvalifikační kurzy pro mě budou nejlepším způsobem, jak si zlepšit pracovní uplatnění." }
+  { name: "Tatiana", date: "2026-10-15", text: {
+      cs: "Děkuji vám za doprovod na úřad práce. Bylo pro mě důležité pochopit a vysvětlit specialistovi, které rekvalifikační kurzy pro mě budou nejlepším způsobem, jak si zlepšit pracovní uplatnění.",
+      ru: "Спасибо вам за сопровождение на биржу труда. Для меня было важно разобраться и объяснить специалисту, какие курсы переквалификации станут для меня лучшим способом улучшить шансы на трудоустройство.",
+      uk: "Дякую вам за супровід до центру зайнятості. Для мене було важливо зрозуміти й пояснити фахівцеві, які курси перекваліфікації стануть для мене найкращим способом покращити шанси на працевлаштування.",
+      en: "Thank you for accompanying me to the Labour Office. It was important for me to understand and explain to the specialist which retraining courses would be the best way for me to improve my job prospects." } }
 ];

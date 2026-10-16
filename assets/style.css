@@ -543,8 +543,12 @@ footer.site{padding:64px 0 0; background:linear-gradient(180deg, var(--bg) 0%, v
 @media(min-width:900px){.fb-grid{grid-template-columns:1fr 1fr;}}
 .fb-list{display:grid; gap:14px;}
 .fb-item{margin:0; background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px; box-shadow:var(--shadow-sm); position:relative;}
-.fb-item::before{content:"\201C"; position:absolute; top:-6px; left:16px; font:700 3.4rem/1 var(--font-head); color:var(--orange-400); opacity:.6;}
-.fb-item p{margin:10px 0 10px; color:var(--ink); white-space:pre-line;}
+.fb-item{quotes:"\201C" "\201D";}
+.fb-item:lang(ru), .fb-item:lang(uk){quotes:"\00AB" "\00BB";}
+.fb-item:lang(cs){quotes:"\201E" "\201C";}
+.fb-item p{margin:0 0 12px; color:var(--ink); white-space:pre-line;}
+.fb-item p::before{content:open-quote; color:var(--orange-400); font-weight:700; margin-right:1px;}
+.fb-item p::after{content:close-quote; color:var(--orange-400); font-weight:700; margin-left:1px;}
 .fb-item footer{font-size:.88rem; color:var(--ink-soft); font-weight:600;}
 
 /* ---------- Statute ---------- */
