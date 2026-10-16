@@ -80,4 +80,6 @@ window.PROJECTS = [];
    на e-mail с темой «отзыв на модерацию»; чтобы опубликовать, добавьте
    его сюда. Текст показывается как есть, на языке автора.
    Пример: { name: "Ольга", date: "2026-10-05", text: "Спасибо за помощь!" } */
-window.FEEDBACK = [];
+window.FEEDBACK = [
+  { name: "Tatiana", date: "2026-10-15", text: "Děkuji vám za doprovod na úřad práce. Bylo pro mě důležité pochopit a vysvětlit specialistovi, které rekvalifikační kurzy pro mě budou nejlepším způsobem, jak si zlepšit pracovní uplatnění." }
+];
