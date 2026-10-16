@@ -23,7 +23,7 @@ window.FORM_ENDPOINT = "https://formsubmit.co/ajax/" + window.ORG.email;
 /* Отзывы с модерацией по e-mail (Google Apps Script). Сюда вставляется
    адрес веб-приложения вида https://script.google.com/macros/s/.../exec
    Пусто — отзывы идут по почте через FormSubmit, публикуются вручную ниже. */
-window.FEEDBACK_API = "";
+window.FEEDBACK_API = "https://script.google.com/macros/s/AKfycbyYVOdFTf41KACYgqDGE2FBGTbMgmFq7EwmDFzy6fwV-fIJ7wct72XOWQIvW5GfTXg/exec";
 
 /* Сбор пожертвований. Пока url пустой — показывается заметка,
    что пожертвования подключим позже. goal и raised — суммы в Kč;
