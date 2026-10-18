@@ -431,9 +431,9 @@ form.cform{background:var(--panel); border:1px solid var(--line); border-radius:
 @media(max-width:560px){form.cform{padding:22px 16px; border-radius:22px;}}
 .field{display:grid; gap:6px;}
 .field label{font-size:.92rem; font-weight:700; color:var(--heading);}
-.field input,.field textarea{font:inherit; font-size:1rem; padding:13px 15px; border-radius:14px; border:1.5px solid var(--line); background:var(--bg); color:var(--ink); width:100%; transition:border-color .15s, box-shadow .15s;}
+.field input,.field textarea,.field select{font:inherit; font-size:1rem; padding:13px 15px; border-radius:14px; border:1.5px solid var(--line); background:var(--bg); color:var(--ink); width:100%; transition:border-color .15s, box-shadow .15s;}
 .field textarea{resize:vertical; min-height:130px;}
-.field input:focus,.field textarea:focus{outline:none; border-color:var(--blue-500); box-shadow:0 0 0 4px color-mix(in srgb, var(--blue-500) 18%, transparent);}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none; border-color:var(--blue-500); box-shadow:0 0 0 4px color-mix(in srgb, var(--blue-500) 18%, transparent);}
 .field.flash textarea{animation:flash 1.4s ease;}
 @keyframes flash{0%,100%{box-shadow:none;} 30%{box-shadow:0 0 0 6px color-mix(in srgb, var(--orange-400) 45%, transparent);}}
 .hint{font-size:.86rem; color:var(--ink-soft); margin:0;}
@@ -569,3 +569,18 @@ footer.site{padding:64px 0 0; background:linear-gradient(180deg, var(--bg) 0%, v
 
 .story-avatar svg.portrait{width:100%; height:100%; fill:initial; stroke:none; display:block;}
 .story-avatar:has(svg.portrait){align-items:end;}
+
+/* Когда помогли (форма отзыва) */
+fieldset.fb-when{border:0; padding:0; margin:0; min-width:0;}
+fieldset.fb-when legend{font-size:.92rem; font-weight:700; color:var(--heading); margin-bottom:6px; padding:0;}
+.field select{appearance:auto; cursor:pointer;}
+.fb-item footer .fb-when-tag{color:var(--ink-soft);}
+
+/* Статус проекта */
+.project-grid > :only-child{grid-column:1/-1;}
+.prj-status{display:inline-block; font-size:.78rem; font-weight:700; letter-spacing:.03em; padding:4px 10px; border-radius:999px; margin-bottom:10px;}
+.prj-planned{background:color-mix(in srgb, var(--orange-400) 22%, transparent); color:var(--orange-600);}
+.prj-active{background:color-mix(in srgb, var(--blue-500) 18%, transparent); color:var(--blue-700);}
+.prj-done{background:color-mix(in srgb, #2E9E5B 18%, transparent); color:#237A47;}
+:root[data-theme="dark"] .prj-active{color:#8FB4F5;} :root[data-theme="dark"] .prj-planned{color:var(--orange-400);} :root[data-theme="dark"] .prj-done{color:#7DD8A2;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .prj-active{color:#8FB4F5;} :root:not([data-theme="light"]) .prj-planned{color:var(--orange-400);} :root:not([data-theme="light"]) .prj-done{color:#7DD8A2;}}

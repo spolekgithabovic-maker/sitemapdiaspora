@@ -517,11 +517,19 @@ wireForm(vf, $("#volStatus"), $("#vSubmit"), () => ({
   _subject: "Diaspora Care — " + L.vf_subject + " (" + LANG.toUpperCase() + ")", _replyto: clean(vf.elements["email"].value, 254)
 }), () => checked("ways").length ? null : L.vf_pick, "vf_ok", "vf_submit");
 const ff = $("#fbForm");
+(() => { const ys = $("#fbYear"), ms = $("#fbMonth"), now = new Date().getFullYear();
+  for(let y = now; y >= 2014; y--){ const o = document.createElement("option"); o.value = String(y); o.textContent = String(y); ys.appendChild(o); }
+  for(let m = 1; m <= 12; m++){ const o = document.createElement("option"); o.value = String(m).padStart(2, "0"); let n = String(m); try{ n = new Intl.DateTimeFormat(LANG === "uk" ? "uk-UA" : LANG, {month:"long"}).format(new Date(2000, m - 1, 15)); }catch(e){} o.textContent = n; ms.appendChild(o); }
+  const sync = () => { ms.disabled = !/^\d{4}$/.test(ys.value); if(ms.disabled) ms.value = ""; };
+  ys.addEventListener("change", sync); sync();
+  ff.addEventListener("reset", () => setTimeout(sync));
+})();
+const helpValue = () => { const y = ff.elements["help_year"].value, m = ff.elements["help_month"].value; if(!/^\d{4}$/.test(y)) return "—"; return /^\d{2}$/.test(m) ? y + "-" + m : y; };
 wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
   name: clean(ff.elements["name"].value, 60), message: clean(ff.elements["message"].value, 1500),
-  publish_consent: "yes", page: location.pathname,
+  help_when: helpValue(), publish_consent: "yes", page: location.pathname,
   _subject: "Diaspora Care — " + L.fb_subject + " (" + LANG.toUpperCase() + ")"
-}), null, "fb_ok", "fb_submit", window.FEEDBACK_API || "");
+}), () => ff.elements["help_year"].value ? null : L.fb_pick_err, "fb_ok", "fb_submit", window.FEEDBACK_API || "");
 
 /* ---------- Помощь в цифрах ---------- */
 (function stats(){
@@ -558,11 +566,22 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
   const P = (window.PROJECTS || []).filter(p => p && p.title && p.title[LANG]);
   const box = $("#projectList");
   if(!P.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M4 7h16v12H4z"/><path d="M9 7V5h6v2M4 12h16"/>')+'<p>'+esc(L.projects_empty)+'</p></div>'; return; }
-  box.innerHTML = '<div class="project-grid">'+P.map(p => '<article class="card"><h3>'+esc(p.title[LANG])+'</h3><p>'+esc((p.text && p.text[LANG]) || "")+'</p></article>').join("")+'</div>';
+  box.innerHTML = '<div class="project-grid">'+P.map(p => { const st = ["planned","active","done"].includes(p.status) ? p.status : ""; return '<article class="card project">'+(st ? '<span class="prj-status prj-'+st+'">'+esc(L["prj_"+st])+'</span>' : '')+'<h3>'+esc(p.title[LANG])+'</h3><p>'+esc((p.text && p.text[LANG]) || "")+'</p></article>'; }).join("")+'</div>';
 })();
 
 /* ---------- Отзывы (только одобренные) ---------- */
 (function feedback(){
+  /* «Помощь: май 2023» — показываем, когда человеку помогли (год и, если известен, месяц), а не дату отзыва */
+  const monthName = m => { try{ return new Intl.DateTimeFormat(LANG === "uk" ? "uk-UA" : LANG, {month:"long"}).format(new Date(2000, m - 1, 15)); }catch(e){ return String(m); } };
+  const helpWhen = f => {
+    let y = 0, m = 0, label = true;
+    const h = String(f.help || f.help_when || "").match(/^(\d{4})(?:-(\d{1,2}))?$/);
+    if(h){ y = +h[1]; m = h[2] ? +h[2] : 0; }
+    else if(f.date && /^\d{4}-\d{2}/.test(String(f.date))){ y = +String(f.date).slice(0,4); m = +String(f.date).slice(5,7); label = false; }
+    if(!y || y < 2000 || y > 2100) return "";
+    const when = (m >= 1 && m <= 12 ? monthName(m) + " " : "") + y;
+    return ' · <span class="fb-when-tag">'+(label ? esc(L.fb_help_label)+': ' : '')+esc(when)+'</span>';
+  };
   const box = $("#fbList");
   /* text — строка или переводы { ru, uk, cs, en }; показываем на языке страницы */
   const txt = t => t && typeof t === "object" ? (t[LANG] || t.cs || t.ru || t.uk || t.en || "") : String(t || "");
@@ -570,7 +589,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
     const F = list.filter(f => f && txt(f.text));
     if(!F.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/>')+'<p>'+esc(L.fb_empty)+'</p></div>'; return; }
     box.innerHTML = '<div class="fb-list">'+F.map(f => '<blockquote class="fb-item"><p>'+esc(txt(f.text).slice(0, 1500))+'</p><footer>— '+esc(f.name || "")+
-      (f.date ? ' · '+esc(fmtDate(new Date(String(f.date).slice(0,10)+"T12:00"), {day:"numeric", month:"long", year:"numeric"})) : '')+'</footer></blockquote>').join("")+'</div>';
+      helpWhen(f)+'</footer></blockquote>').join("")+'</div>';
   };
   const base = window.FEEDBACK || [];
   render(base);

@@ -73,18 +73,23 @@ window.STATS = {
   countries: { UA: 49, MD: 5, RU: 3, other: 2 }
 };
 
-/* Проекты. Пример (уберите // чтобы включить):
+/* Проекты. status: "planned" — «Готовим», "active" — «Идёт», "done" — «Завершён».
+   Название партнёра пишите только с его письменного согласия (e-mail достаточно). */
 window.PROJECTS = [
-  { title: { ru: "Название", uk: "Назва", cs: "Název", en: "Title" },
-    text:  { ru: "Описание", uk: "Опис", cs: "Popis", en: "Description" } }
+  { status: "planned",
+    title: { ru: "Экскурсия и лекция о сортировке отходов", uk: "Екскурсія та лекція про сортування відходів", cs: "Exkurze a přednáška o třídění odpadu", en: "Tour and talk on waste sorting" },
+    text:  { ru: "Вместе с городской компанией по переработке отходов готовим индивидуальную экскурсию для людей, которым мы помогаем: что происходит с отходами после контейнера и как правильно сортировать мусор в Брно. Перевод на украинский и русский обеспечим мы.",
+             uk: "Разом із міською компанією з переробки відходів готуємо індивідуальну екскурсію для людей, яким ми допомагаємо: що відбувається з відходами після контейнера і як правильно сортувати сміття в Брні. Переклад українською та російською забезпечимо ми.",
+             cs: "Společně s městskou společností, která zpracovává odpad, připravujeme individuální exkurzi pro lidi, kterým pomáháme: co se děje s odpadem po vyhození do kontejneru a jak v Brně správně třídit. Tlumočení do ukrajinštiny a ruštiny zajistíme my.",
+             en: "Together with the city's waste processing company, we are preparing a private tour for the people we support: what happens to waste after the bin and how to sort it correctly in Brno. We will provide interpretation into Ukrainian and Russian." } }
 ];
-*/
-window.PROJECTS = [];
 
 /* Отзывы — ТОЛЬКО одобренные модератором. Отзывы с сайта приходят
    на e-mail с темой «отзыв на модерацию»; чтобы опубликовать, добавьте
    его сюда. text — строка (на языке автора) или перевод на каждый язык: { ru, uk, cs, en }.
-   Пример: { name: "Ольга", date: "2026-10-05", text: "Спасибо за помощь!" } */
+   help — когда человеку помогли: "2023-05" (год-месяц) или "2023" (только год);
+   на сайте будет «Помощь: май 2023». Без help показывается только месяц и год отзыва.
+   Пример: { name: "Ольга", help: "2023-05", text: "Спасибо за помощь!" } */
 window.FEEDBACK = [
   { name: "Tatiana", date: "2026-10-15", text: {
       cs: "Děkuji vám za doprovod na úřad práce. Bylo pro mě důležité pochopit a vysvětlit specialistovi, které rekvalifikační kurzy pro mě budou nejlepším způsobem, jak si zlepšit pracovní uplatnění.",
