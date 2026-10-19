@@ -93,10 +93,10 @@ window.PROJECTS = [
    Пример: { name: "Ольга", city: { ru: "Брно", uk: "Брно", cs: "Brno", en: "Brno" }, help: "2023-05", text: "Спасибо за помощь!" } */
 window.FEEDBACK = [
   { name: { ru: "Павел", uk: "Павло", cs: "Pavel", en: "Pavel" }, city: { ru: "Брно", uk: "Брно", cs: "Brno", en: "Brno" }, help: "2024", text: {
-      ru: "Два года назад я приехал в Брно без жилья и без работы. Первые два дня мне дали жильё бесплатно. Потом помогли найти общежитие и работу. Спасибо вам за помощь, без неё мне было бы намного тяжелее.",
-      uk: "Два роки тому я приїхав до Брна без житла і без роботи. Перші два дні мені дали житло безкоштовно. Потім допомогли знайти гуртожиток і роботу. Дякую вам за допомогу, без неї мені було б набагато важче.",
-      cs: "Před dvěma lety jsem přijel do Brna bez bydlení a bez práce. První dva dny jsem měl ubytování zdarma. Pak mi pomohli najít ubytovnu a práci. Děkuji za pomoc, bez ní by to pro mě bylo mnohem těžší.",
-      en: "Two years ago I came to Brno with no place to live and no job. For the first two days I got a place to stay for free. Then they helped me find a hostel and a job. Thank you for your help, it would have been much harder without it." } },
+      ru: "Два года назад я приехал в Брно без жилья и без работы. Первые два дня мне дали жильё бесплатно. Потом помогли найти общежитие и работу, а позже снять квартиру. Спасибо вам за помощь, без неё мне было бы намного тяжелее.",
+      uk: "Два роки тому я приїхав до Брна без житла і без роботи. Перші два дні мені дали житло безкоштовно. Потім допомогли знайти гуртожиток і роботу, а згодом винайняти квартиру. Дякую вам за допомогу, без неї мені було б набагато важче.",
+      cs: "Před dvěma lety jsem přijel do Brna bez bydlení a bez práce. První dva dny jsem měl ubytování zdarma. Pak mi pomohli najít ubytovnu a práci a později i pronajmout byt. Děkuji za pomoc, bez ní by to pro mě bylo mnohem těžší.",
+      en: "Two years ago I came to Brno with no place to live and no job. For the first two days I got a place to stay for free. Then they helped me find a hostel and a job, and later rent a flat. Thank you for your help, it would have been much harder without it." } },
   { name: "Tatiana", city: { ru: "Брно", uk: "Брно", cs: "Brno", en: "Brno" }, help: "2024-03", text: {
       cs: "Děkuji vám za doprovod na úřad práce. Bylo pro mě důležité pochopit a vysvětlit specialistovi, které rekvalifikační kurzy pro mě budou nejlepším způsobem, jak si zlepšit pracovní uplatnění.",
       ru: "Спасибо вам за сопровождение на биржу труда. Для меня было важно разобраться и объяснить специалисту, какие курсы переквалификации станут для меня лучшим способом улучшить шансы на трудоустройство.",

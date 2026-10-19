@@ -602,8 +602,10 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
       /* не показываем повторно отзыв, который уже есть в content.js (сравниваем по тексту на любом языке) */
       const norm = s => String(s || "").toLowerCase().replace(/\s+/g, " ").trim().slice(0, 80);
       const seen = new Set();
-      base.forEach(f => { const t = f.text; (t && typeof t === "object" ? Object.values(t) : [t]).forEach(v => seen.add(norm(v))); });
-      const extra = list.filter(f => f && f.text && !seen.has(norm(txt(f.text)))).slice(0, 50);
+      const all = v => v && typeof v === "object" ? Object.values(v) : [v];
+      base.forEach(f => { all(f.text).forEach(v => seen.add(norm(v))); all(f.name).forEach(v => seen.add("@" + norm(v))); });
+      /* тот же текст или тот же автор, чей отзыв уже опубликован в content.js, — не дублируем */
+      const extra = list.filter(f => f && f.text && !seen.has(norm(txt(f.text))) && !seen.has("@" + norm(txt(f.name)))).slice(0, 50);
       if(extra.length) render(extra.concat(base));
     }).catch(() => {});
   }
