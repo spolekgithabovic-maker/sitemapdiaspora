@@ -520,14 +520,15 @@ const ff = $("#fbForm");
 (() => { const ys = $("#fbYear"), ms = $("#fbMonth"), now = new Date().getFullYear();
   for(let y = now; y >= 2014; y--){ const o = document.createElement("option"); o.value = String(y); o.textContent = String(y); ys.appendChild(o); }
   for(let m = 1; m <= 12; m++){ const o = document.createElement("option"); o.value = String(m).padStart(2, "0"); let n = String(m); try{ n = new Intl.DateTimeFormat(LANG === "uk" ? "uk-UA" : LANG, {month:"long"}).format(new Date(2000, m - 1, 15)); }catch(e){} o.textContent = n; ms.appendChild(o); }
-  const sync = () => { ms.disabled = !/^\d{4}$/.test(ys.value); if(ms.disabled) ms.value = ""; };
+  const cs = $("#fbCity");
+  const sync = () => { ms.disabled = !/^\d{4}$/.test(ys.value); if(ms.disabled) ms.value = ""; cs.disabled = ys.value === "none"; if(cs.disabled) cs.value = ""; };
   ys.addEventListener("change", sync); sync();
   ff.addEventListener("reset", () => setTimeout(sync));
 })();
 const helpValue = () => { const y = ff.elements["help_year"].value, m = ff.elements["help_month"].value; if(!/^\d{4}$/.test(y)) return "—"; return /^\d{2}$/.test(m) ? y + "-" + m : y; };
 wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
   name: clean(ff.elements["name"].value, 60), message: clean(ff.elements["message"].value, 1500),
-  help_when: helpValue(), publish_consent: "yes", page: location.pathname,
+  help_when: helpValue(), help_city: clean(ff.elements["help_city"].value, 40) || "—", publish_consent: "yes", page: location.pathname,
   _subject: "Diaspora Care — " + L.fb_subject + " (" + LANG.toUpperCase() + ")"
 }), () => ff.elements["help_year"].value ? null : L.fb_pick_err, "fb_ok", "fb_submit", window.FEEDBACK_API || "");
 
@@ -582,6 +583,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
     const when = (m >= 1 && m <= 12 ? monthName(m) + " " : "") + y;
     return ' · <span class="fb-when-tag">'+(label ? esc(L.fb_help_label)+': ' : '')+esc(when)+'</span>';
   };
+  const cityOf = f => { const c = String(f.city || f.help_city || "").trim(); return c && c !== "—" ? ' · <span class="fb-city">'+esc(c.slice(0, 40))+'</span>' : ""; };
   const box = $("#fbList");
   /* text — строка или переводы { ru, uk, cs, en }; показываем на языке страницы */
   const txt = t => t && typeof t === "object" ? (t[LANG] || t.cs || t.ru || t.uk || t.en || "") : String(t || "");
@@ -589,7 +591,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
     const F = list.filter(f => f && txt(f.text));
     if(!F.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/>')+'<p>'+esc(L.fb_empty)+'</p></div>'; return; }
     box.innerHTML = '<div class="fb-list">'+F.map(f => '<blockquote class="fb-item"><p>'+esc(txt(f.text).slice(0, 1500))+'</p><footer>— '+esc(f.name || "")+
-      helpWhen(f)+'</footer></blockquote>').join("")+'</div>';
+      cityOf(f)+helpWhen(f)+'</footer></blockquote>').join("")+'</div>';
   };
   const base = window.FEEDBACK || [];
   render(base);

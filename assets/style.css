@@ -584,3 +584,5 @@ fieldset.fb-when legend{font-size:.92rem; font-weight:700; color:var(--heading);
 .prj-done{background:color-mix(in srgb, #2E9E5B 18%, transparent); color:#237A47;}
 :root[data-theme="dark"] .prj-active{color:#8FB4F5;} :root[data-theme="dark"] .prj-planned{color:var(--orange-400);} :root[data-theme="dark"] .prj-done{color:#7DD8A2;}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .prj-active{color:#8FB4F5;} :root:not([data-theme="light"]) .prj-planned{color:var(--orange-400);} :root:not([data-theme="light"]) .prj-done{color:#7DD8A2;}}
+
+.fb-item footer .fb-city{color:var(--ink-soft);}

@@ -89,7 +89,8 @@ window.PROJECTS = [
    его сюда. text — строка (на языке автора) или перевод на каждый язык: { ru, uk, cs, en }.
    help — когда человеку помогли: "2023-05" (год-месяц) или "2023" (только год);
    на сайте будет «Помощь: май 2023». Без help показывается только месяц и год отзыва.
-   Пример: { name: "Ольга", help: "2023-05", text: "Спасибо за помощь!" } */
+   city — город, где помогли (поле help_city из письма), например "Brno".
+   Пример: { name: "Ольга", city: "Brno", help: "2023-05", text: "Спасибо за помощь!" } */
 window.FEEDBACK = [
   { name: "Tatiana", date: "2026-10-15", text: {
       cs: "Děkuji vám za doprovod na úřad práce. Bylo pro mě důležité pochopit a vysvětlit specialistovi, které rekvalifikační kurzy pro mě budou nejlepším způsobem, jak si zlepšit pracovní uplatnění.",
