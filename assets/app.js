@@ -578,7 +578,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
     let y = 0, m = 0, label = true;
     const h = String(f.help || f.help_when || "").match(/^(\d{4})(?:-(\d{1,2}))?$/);
     if(h){ y = +h[1]; m = h[2] ? +h[2] : 0; }
-    else if(f.date && /^\d{4}-\d{2}/.test(String(f.date))){ y = +String(f.date).slice(0,4); m = +String(f.date).slice(5,7); label = false; }
+    /* дату публикации отзыва (f.date) не показываем */
     if(!y || y < 2000 || y > 2100) return "";
     const when = (m >= 1 && m <= 12 ? monthName(m) + " " : "") + y;
     return ' · <span class="fb-when-tag">'+(label ? esc(L.fb_help_label)+': ' : '')+esc(when)+'</span>';
@@ -590,7 +590,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
   const render = list => {
     const F = list.filter(f => f && txt(f.text));
     if(!F.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/>')+'<p>'+esc(L.fb_empty)+'</p></div>'; return; }
-    box.innerHTML = '<div class="fb-list">'+F.map(f => '<blockquote class="fb-item"><p>'+esc(txt(f.text).slice(0, 1500))+'</p><footer>— '+esc(f.name || "")+
+    box.innerHTML = '<div class="fb-list">'+F.map(f => '<blockquote class="fb-item"><p>'+esc(txt(f.text).slice(0, 1500))+'</p><footer>— '+esc(txt(f.name))+
       cityOf(f)+helpWhen(f)+'</footer></blockquote>').join("")+'</div>';
   };
   const base = window.FEEDBACK || [];

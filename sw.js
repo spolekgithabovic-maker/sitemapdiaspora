@@ -1,5 +1,5 @@
 /* Diaspora Care z.s. — офлайн-режим. При изменении файлов сайта увеличьте номер версии. */
-const VERSION = "dc-v5-15";
+const VERSION = "dc-v5-16";
 const FILES = [
  "./",
  "./assets/app.js",
