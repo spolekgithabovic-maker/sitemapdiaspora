@@ -583,7 +583,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
     const when = (m >= 1 && m <= 12 ? monthName(m) + " " : "") + y;
     return ' · <span class="fb-when-tag">'+(label ? esc(L.fb_help_label)+': ' : '')+esc(when)+'</span>';
   };
-  const cityOf = f => { const c = String(f.city || f.help_city || "").trim(); return c && c !== "—" ? ' · <span class="fb-city">'+esc(c.slice(0, 40))+'</span>' : ""; };
+  const cityOf = f => { const c = String(txt(f.city) || f.help_city || "").trim(); return c && c !== "—" ? ' · <span class="fb-city">'+esc(c.slice(0, 40))+'</span>' : ""; };
   const box = $("#fbList");
   /* text — строка или переводы { ru, uk, cs, en }; показываем на языке страницы */
   const txt = t => t && typeof t === "object" ? (t[LANG] || t.cs || t.ru || t.uk || t.en || "") : String(t || "");

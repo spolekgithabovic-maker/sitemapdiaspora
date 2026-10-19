@@ -90,14 +90,14 @@ window.PROJECTS = [
    help — когда человеку помогли: "2023-05" (год-месяц) или "2023" (только год);
    на сайте будет «Помощь: май 2023». Без help дата не показывается.
    city — город, где помогли (поле help_city из письма), например "Brno".
-   Пример: { name: "Ольга", city: "Brno", help: "2023-05", text: "Спасибо за помощь!" } */
+   Пример: { name: "Ольга", city: { ru: "Брно", uk: "Брно", cs: "Brno", en: "Brno" }, help: "2023-05", text: "Спасибо за помощь!" } */
 window.FEEDBACK = [
-  { name: { ru: "Павел", uk: "Павло", cs: "Pavel", en: "Pavel" }, city: "Brno", help: "2024", text: {
+  { name: { ru: "Павел", uk: "Павло", cs: "Pavel", en: "Pavel" }, city: { ru: "Брно", uk: "Брно", cs: "Brno", en: "Brno" }, help: "2024", text: {
       ru: "Два года назад я приехал в Брно без жилья и без работы. Первые два дня мне дали жильё бесплатно. Потом помогли найти общежитие и работу. Спасибо вам за помощь, без неё мне было бы намного тяжелее.",
       uk: "Два роки тому я приїхав до Брна без житла і без роботи. Перші два дні мені дали житло безкоштовно. Потім допомогли знайти гуртожиток і роботу. Дякую вам за допомогу, без неї мені було б набагато важче.",
       cs: "Před dvěma lety jsem přijel do Brna bez bydlení a bez práce. První dva dny jsem měl ubytování zdarma. Pak mi pomohli najít ubytovnu a práci. Děkuji za pomoc, bez ní by to pro mě bylo mnohem těžší.",
       en: "Two years ago I came to Brno with no place to live and no job. For the first two days I got a place to stay for free. Then they helped me find a hostel and a job. Thank you for your help, it would have been much harder without it." } },
-  { name: "Tatiana", date: "2026-10-15", text: {
+  { name: "Tatiana", city: { ru: "Брно", uk: "Брно", cs: "Brno", en: "Brno" }, help: "2024-03", text: {
       cs: "Děkuji vám za doprovod na úřad práce. Bylo pro mě důležité pochopit a vysvětlit specialistovi, které rekvalifikační kurzy pro mě budou nejlepším způsobem, jak si zlepšit pracovní uplatnění.",
       ru: "Спасибо вам за сопровождение на биржу труда. Для меня было важно разобраться и объяснить специалисту, какие курсы переквалификации станут для меня лучшим способом улучшить шансы на трудоустройство.",
       uk: "Дякую вам за супровід до центру зайнятості. Для мене було важливо зрозуміти й пояснити фахівцеві, які курси перекваліфікації стануть для мене найкращим способом покращити шанси на працевлаштування.",
