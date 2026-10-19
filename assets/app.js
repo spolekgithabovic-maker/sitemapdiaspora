@@ -599,9 +599,11 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
   if(window.FEEDBACK_API){
     fetch(window.FEEDBACK_API + "?action=list").then(r => r.json()).then(list => {
       if(!Array.isArray(list)) return;
-      const key = f => f.name + "|" + f.date;
-      const seen = new Set(base.map(key));
-      const extra = list.filter(f => f && f.text && !seen.has(key(f))).slice(0, 50);
+      /* не показываем повторно отзыв, который уже есть в content.js (сравниваем по тексту на любом языке) */
+      const norm = s => String(s || "").toLowerCase().replace(/\s+/g, " ").trim().slice(0, 80);
+      const seen = new Set();
+      base.forEach(f => { const t = f.text; (t && typeof t === "object" ? Object.values(t) : [t]).forEach(v => seen.add(norm(v))); });
+      const extra = list.filter(f => f && f.text && !seen.has(norm(txt(f.text)))).slice(0, 50);
       if(extra.length) render(extra.concat(base));
     }).catch(() => {});
   }
