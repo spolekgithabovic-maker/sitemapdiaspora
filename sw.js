@@ -1,5 +1,5 @@
 /* Diaspora Care z.s. — офлайн-режим. При изменении файлов сайта увеличьте номер версии. */
-const VERSION = "dc-v5-24";
+const VERSION = "dc-v5-25";
 const FILES = [
  "./",
  "./assets/app.js",
@@ -15,6 +15,7 @@ const FILES = [
  "./assets/img/banner.jpg",
  "./assets/img/icon-180.png",
  "./assets/img/icon-192.png",
+ "./assets/img/icon-48.png",
  "./assets/img/icon-512.png",
  "./assets/img/logo.jpg",
  "./assets/img/qr-platba.svg",
@@ -22,6 +23,7 @@ const FILES = [
  "./assets/style.css",
  "./cs/index.html",
  "./en/index.html",
+ "./favicon.ico",
  "./index.html",
  "./manifest.webmanifest",
  "./ru/index.html",
