@@ -400,6 +400,27 @@ function icsFor(ev){
 })();
 
 /* ---------- Пожертвования ---------- */
+/* ---------- Пожертвование на счёт (QR Platba без суммы) ---------- */
+(function bank(){
+  const B = window.BANK || {}, box = $("#bankBox");
+  if(!box || !B.account) return;
+  const row = (label, val) => val ? '<div class="bank-row"><dt>'+esc(label)+'</dt><dd><span class="bank-val">'+esc(val)+'</span>'+
+    '<button type="button" class="bank-copy" data-copy="'+esc(val)+'">'+esc(L.bank_copy)+'</button></dd></div>' : '';
+  const qr = /^\.\.\/assets\/img\/[\w.-]+\.svg$/.test(B.qr || "") ? '<div class="bank-qr"><img src="'+esc(B.qr)+'" alt="'+esc(L.bank_qr_alt)+'" width="200" height="200"></div>' : '';
+  box.innerHTML = '<h3 class="bank-title">'+esc(L.bank_title)+'</h3><div class="bank-grid">'+qr+
+    '<div><p class="bank-hint">'+esc(L.bank_hint)+'</p><dl class="bank-list">'+
+    row(L.bank_holder, B.holder)+row(L.bank_acc, B.account)+row(L.bank_iban, B.iban)+row(L.bank_bic, B.bic)+
+    row(L.bank_vs, B.vs)+row(L.bank_msg, B.msg)+'</dl></div></div>';
+  box.hidden = false;
+  if(!(window.DONATE && window.DONATE.url)) $("#donateNote").hidden = true;
+  box.addEventListener("click", e => {
+    const b = e.target.closest(".bank-copy"); if(!b || !navigator.clipboard) return;
+    navigator.clipboard.writeText(b.dataset.copy.replace(/\s+/g, " ").trim()).then(() => {
+      b.textContent = L.bank_copied; setTimeout(() => { b.textContent = L.bank_copy; }, 1800);
+    }).catch(() => {});
+  });
+})();
+
 (function donate(){
   const D = window.DONATE || {};
   const dUrl = safeUrl(D.url);
@@ -590,8 +611,23 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
   const render = list => {
     const F = list.filter(f => f && txt(f.text));
     if(!F.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/>')+'<p>'+esc(L.fb_empty)+'</p></div>'; return; }
-    box.innerHTML = '<div class="fb-list">'+F.map(f => '<blockquote class="fb-item"><p>'+esc(txt(f.text).slice(0, 1500))+'</p><footer>— '+esc(txt(f.name))+
-      cityOf(f)+helpWhen(f)+'</footer></blockquote>').join("")+'</div>';
+    /* Видны 3 последних отзыва, остальные свёрнуты под кнопкой «Показать все» */
+    const SHOW = 3;
+    const item = f => '<blockquote class="fb-item"><p>'+esc(txt(f.text).slice(0, 1500))+'</p><footer>— '+esc(txt(f.name))+
+      cityOf(f)+helpWhen(f)+'</footer></blockquote>';
+    const rest = F.slice(SHOW);
+    box.innerHTML = '<div class="fb-list">'+F.slice(0, SHOW).map(item).join("")+'</div>'+
+      (rest.length ? '<div class="fb-list fb-more" id="fbMore" hidden>'+rest.map(item).join("")+'</div>'+
+        '<button type="button" class="btn btn-ghost btn-sm fb-toggle" id="fbToggle" aria-expanded="false" aria-controls="fbMore"></button>' : '');
+    const btn = $("#fbToggle"), more = $("#fbMore");
+    if(btn){
+      const label = () => { btn.textContent = more.hidden ? L.fb_more.replace("{n}", F.length) : L.fb_less; btn.setAttribute("aria-expanded", String(!more.hidden)); };
+      label();
+      btn.addEventListener("click", () => {
+        more.hidden = !more.hidden; label();
+        if(more.hidden) box.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"});
+      });
+    }
   };
   const base = window.FEEDBACK || [];
   render(base);
