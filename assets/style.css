@@ -120,6 +120,9 @@ nav.main a:hover{background:color-mix(in srgb, var(--orange-400) 18%, transparen
 .langs a:hover{color:var(--heading);}
 .langs a[aria-current="true"]{background:var(--blue-700); color:#fff;}
 .menu-toggle{display:inline-grid;}
+/* Кнопка меню (три полоски) — оранжевая, как «С чего начать» */
+.tool-btn.menu-toggle{color:#fff; border-color:transparent; background:linear-gradient(135deg,var(--orange-vivid),var(--orange-600)); box-shadow:0 8px 18px -10px rgba(227,115,18,.8);}
+.tool-btn.menu-toggle:hover, .tool-btn.menu-toggle[aria-expanded="true"]{background:linear-gradient(135deg,var(--orange-600),var(--orange-600));}
 @media(min-width:760px){.head-cta{display:inline-flex;}}
 /* Меню в строку показывается, только если оно реально помещается (проверяет app.js → класс nav-collapsed) */
 @media(min-width:1100px){:root:not(.nav-collapsed) nav.main{display:flex;} :root:not(.nav-collapsed) .menu-toggle{display:none;}}
