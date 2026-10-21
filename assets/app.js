@@ -642,6 +642,9 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
       base.forEach(f => { all(f.text).forEach(v => seen.add(norm(v))); all(f.name).forEach(v => seen.add("@" + norm(v))); });
       /* тот же текст или тот же автор, чей отзыв уже опубликован в content.js, — не дублируем */
       const extra = list.filter(f => f && f.text && !seen.has(norm(txt(f.text))) && !seen.has("@" + norm(txt(f.name)))).slice(0, 50);
+      /* год помощи для отзывов из таблицы, где он не указан (window.FEEDBACK_HELP в content.js) */
+      const H = window.FEEDBACK_HELP || {};
+      extra.forEach(f => { if(!f.help && !f.help_when){ const h = H[String(f.name || "").trim() + "|" + String(f.date || "")]; if(/^\d{4}(-\d{2})?$/.test(h || "")) f.help = h; } });
       if(extra.length) render(extra.concat(base));
     }).catch(() => {});
   }

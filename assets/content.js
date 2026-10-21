@@ -116,3 +116,15 @@ window.FEEDBACK = [
       uk: "Дякую вам за супровід до центру зайнятості. Для мене було важливо зрозуміти й пояснити фахівцеві, які курси перекваліфікації стануть для мене найкращим способом покращити шанси на працевлаштування.",
       en: "Thank you for accompanying me to the Labour Office. It was important for me to understand and explain to the specialist which retraining courses would be the best way for me to improve my job prospects." } }
 ];
+
+/* Год помощи для отзывов из Google-таблицы, где автор его не указал.
+   Ключ: "Имя|дата отзыва" (как в таблице), значение: "2022" или "2022-03".
+   На сайте будет «Помощь: 2022». */
+window.FEEDBACK_HELP = {
+  "Оля|2026-10-21": "2022",
+  "Ирина|2026-10-21": "2022",
+  "Марина|2026-10-20": "2022",
+  "Andrei|2026-10-20": "2022",
+  "Larisa|2026-10-20": "2022",
+  "Iryna|2026-10-20": "2022"
+};
