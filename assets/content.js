@@ -43,7 +43,7 @@ window.BANK = {
   iban: "CZ56 0100 0001 3144 6306 0227",
   bic: "KOMBCZPPXXX",
   vs: "1001",
-  msg: "Dar Diaspora Care",
+  msg: "Dar pro Diaspora Care z. s.",
   holder: "Diaspora Care z. s.",
   qr: "../assets/img/qr-platba.svg"
 };
