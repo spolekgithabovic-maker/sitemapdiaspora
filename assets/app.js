@@ -630,7 +630,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
     }
   };
   const base = window.FEEDBACK || [];
-  render(base);
+  render(base.slice().sort((x, y) => String(y.date || "").localeCompare(String(x.date || ""))));
   /* Одобренные по e-mail отзывы подгружаются из Google-таблицы; новые — сверху */
   if(window.FEEDBACK_API){
     fetch(window.FEEDBACK_API + "?action=list").then(r => r.json()).then(list => {
@@ -645,7 +645,8 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
       /* год помощи для отзывов из таблицы, где он не указан (window.FEEDBACK_HELP в content.js) */
       const H = window.FEEDBACK_HELP || {};
       extra.forEach(f => { if(!f.help && !f.help_when){ const h = H[String(f.name || "").trim() + "|" + String(f.date || "")]; if(/^\d{4}(-\d{2})?$/.test(h || "")) f.help = h; } });
-      if(extra.length) render(extra.concat(base));
+      /* новые сверху: по дате отзыва (date); отзывы без даты — в конце, в прежнем порядке */
+      if(extra.length) render(extra.concat(base).sort((x, y) => String(y.date || "").localeCompare(String(x.date || ""))));
     }).catch(() => {});
   }
 })();

@@ -105,6 +105,11 @@ window.PROJECTS = [
    city — город, где помогли (поле help_city из письма), например "Brno".
    Пример: { name: "Ольга", city: { ru: "Брно", uk: "Брно", cs: "Brno", en: "Brno" }, help: "2023-05", text: "Спасибо за помощь!" } */
 window.FEEDBACK = [
+  { name: "Лариса", date: "2026-10-28", help: "2026-10", text: {
+      ru: "Как я рада, что вы есть. Искренне хочу вас поблагодарить за вашу помощь, внимание, за искреннюю любовь и понимание той ситуации, в которой я оказалась. Благодарю Аничку. Она столько для меня сделала и продолжает мне помогать. Этот путь я одна не прошла бы. Спасибо.",
+      uk: "Як я рада, що ви є. Щиро хочу подякувати вам за вашу допомогу, увагу, за щиру любов і розуміння тієї ситуації, в якій я опинилася. Дякую Анічці. Вона стільки для мене зробила і продовжує мені допомагати. Цей шлях я сама не пройшла б. Дякую.",
+      cs: "Jsem moc ráda, že existujete. Upřímně vám chci poděkovat za vaši pomoc a pozornost, za upřímnou lásku a pochopení situace, ve které jsem se ocitla. Děkuji Aničce. Tolik toho pro mě udělala a dál mi pomáhá. Tuhle cestu bych sama neušla. Děkuji.",
+      en: "I am so glad you exist. I sincerely want to thank you for your help and attention, for your genuine love and understanding of the situation I found myself in. Thank you to Anička. She has done so much for me and keeps helping me. I could not have walked this path alone. Thank you." } },
   { name: { ru: "Павел", uk: "Павло", cs: "Pavel", en: "Pavel" }, city: { ru: "Брно", uk: "Брно", cs: "Brno", en: "Brno" }, help: "2024", text: {
       ru: "Два года назад я приехал в Брно без жилья и без работы. Первые два дня мне дали жильё бесплатно. Потом помогли найти общежитие и работу, а позже снять квартиру. Спасибо вам за помощь, без неё мне было бы намного тяжелее.",
       uk: "Два роки тому я приїхав до Брна без житла і без роботи. Перші два дні мені дали житло безкоштовно. Потім допомогли знайти гуртожиток і роботу, а згодом винайняти квартиру. Дякую вам за допомогу, без неї мені було б набагато важче.",
