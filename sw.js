@@ -1,9 +1,10 @@
 /* Diaspora Care z.s. — офлайн-режим. При изменении файлов сайта увеличьте номер версии. */
-const VERSION = "dc-v5-29";
+const VERSION = "dc-v5-30";
 const FILES = [
  "./",
  "./assets/app.js",
  "./assets/boot.js",
+ "./assets/consent.js",
  "./assets/content.js",
  "./assets/docs/Stanovy_Diaspora_Care_zs.pdf",
  "./assets/fonts/inter-400.woff",

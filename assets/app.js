@@ -517,7 +517,7 @@ function wireForm(form, statusEl, btn, build, check, okKey, submitKey, endpoint)
       const res = await fetch(endpoint || window.FORM_ENDPOINT, {method:"POST", headers:{"Content-Type": endpoint ? "text/plain;charset=utf-8" : "application/json","Accept":"application/json"},
         body: JSON.stringify(Object.assign(build(), {language:LANG.toUpperCase(), _template:"table", _captcha:"false", _honey:""}))});
       const data = await res.json().catch(() => ({}));
-      if(res.ok && String(data.success) !== "false"){ setStatus("ok", L[okKey]); form.reset(); }
+      if(res.ok && String(data.success) !== "false"){ setStatus("ok", L[okKey]); form.reset(); try{ window.dispatchEvent(new CustomEvent("dc:conv", {detail: okKey})); }catch(_){} }
       else throw new Error("send");
     }catch(err){ setStatus("err", L.f_err.replace("{EMAIL}", ORG.email)); }
     finally{ busy = false; btn.disabled = false; span.textContent = L[submitKey]; if(cap) cap.renew(); }
