@@ -215,9 +215,11 @@ nav.main a:hover{background:color-mix(in srgb, var(--orange-400) 18%, transparen
 
 /* ---------- Story ---------- */
 .story{background:linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 14%, var(--bg-2) 86%, var(--bg) 100%);}
-.timeline{position:relative; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); margin:0 auto 64px; max-width:980px; list-style:none; padding:46px 0 0;}
+.timeline{position:relative; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); margin:0 auto 64px; max-width:980px; list-style:none; padding:70px 0 0;}
 .timeline li{position:relative; padding:0 14px; text-align:center;}
 .t-dot{position:relative; display:block; width:16px; height:16px; border-radius:50%; margin:0 auto 12px; background:var(--orange-vivid); box-shadow:0 0 0 4px var(--bg-2), 0 0 16px 3px rgba(255,126,31,.45);}
+/* точки поднимаются вместе с волной: 2014 ниже всех, 2026 выше всех */
+.timeline li:nth-of-type(2) .t-dot{top:-16px;} .timeline li:nth-of-type(3) .t-dot{top:-32px;} .timeline li:nth-of-type(4) .t-dot{top:-48px;}
 .timeline li:nth-of-type(even) .t-dot{background:var(--blue-vivid); box-shadow:0 0 0 4px var(--bg-2), 0 0 16px 3px rgba(47,102,219,.45);}
 .t-year{font-family:var(--font-head); font-weight:700; font-size:1.3rem; color:var(--orange-600); line-height:1;}
 .timeline li:nth-of-type(even) .t-year{color:var(--blue-vivid);}
