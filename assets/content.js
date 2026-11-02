@@ -10,7 +10,9 @@ window.ORG = {
   ico: "30061563",
   seat: "Jaroslava Foglara 866/12, Štýřice, 639 00 Brno",
   register: "L 32394, Krajský soud v Brně",   // spisová značka ve spolkovém rejstříku
-  email: "diasporacare22@gmail.com"
+  email: "info@dczs.cz",              // общий адрес (контакты, политика, данные для Google)
+  email_help: "pomoc@dczs.cz",        // раздел «Помощь»
+  email_volunteer: "dobrovolnici@dczs.cz"   // раздел «Волонтёрам»
 };
 
 /* Фото основателей: путь к файлу относительно папки assets/img,
@@ -18,7 +20,9 @@ window.ORG = {
 window.PHOTOS = { tereza: "", hanna: "", tana: "" };
 
 /* Адрес отправки форм (сервис FormSubmit → e-mail организации). */
-window.FORM_ENDPOINT = "https://formsubmit.co/ajax/" + window.ORG.email;
+/* Формы пока идут через уже подтверждённый в FormSubmit ящик diasporacare22@gmail.com —
+   он пересылает всю почту на info@dczs.cz. */
+window.FORM_ENDPOINT = "https://formsubmit.co/ajax/diasporacare22@gmail.com";
 
 /* Отзывы с модерацией по e-mail (Google Apps Script). Сюда вставляется
    адрес веб-приложения вида https://script.google.com/macros/s/.../exec

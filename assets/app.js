@@ -77,6 +77,8 @@ $("#orgList").innerHTML = orgRows();
 $("#footOrg").innerHTML = orgRows();
 $$(".js-email").forEach(el => el.textContent = ORG.email);
 $$(".js-mail").forEach(el => el.href = "mailto:" + ORG.email);
+[["help", ORG.email_help], ["vol", ORG.email_volunteer]].forEach(([k, m]) => { if(!m) return;
+  $$(".js-mail-" + k).forEach(el => { el.href = "mailto:" + m; el.textContent = m; }); });
 $("#privacyBody").innerHTML = window.POLICY[LANG]
   .replace(/\{ICO\}/g, esc(ORG.ico || "—")).replace(/\{SEAT\}/g, esc(ORG.seat || L.contact_city))
   .replace(/\{EMAIL\}/g, '<a href="mailto:'+esc(ORG.email)+'">'+esc(ORG.email)+'</a>');
