@@ -20,9 +20,8 @@ window.ORG = {
 window.PHOTOS = { tereza: "", hanna: "", tana: "" };
 
 /* Адрес отправки форм (сервис FormSubmit → e-mail организации). */
-/* Формы пока идут через уже подтверждённый в FormSubmit ящик diasporacare22@gmail.com —
-   он пересылает всю почту на info@dczs.cz. */
-window.FORM_ENDPOINT = "https://formsubmit.co/ajax/diasporacare22@gmail.com";
+/* Адрес отправки форм (FormSubmit → info@dczs.cz, адрес подтверждён в FormSubmit). */
+window.FORM_ENDPOINT = "https://formsubmit.co/ajax/info@dczs.cz";
 
 /* Отзывы с модерацией по e-mail (Google Apps Script). Сюда вставляется
    адрес веб-приложения вида https://script.google.com/macros/s/.../exec
