@@ -81,14 +81,14 @@ window.NEWS = [
 
 /* Помощь в цифрах (с начала 2022 года). Только обобщённые числа —
    никаких имён и личных данных. Ключи направлений: psy, health, housing,
-   adapt, other, offices, work; стран: UA, MD, RU, other. */
+   adapt, other, offices, work; стран: UA, MD, RU, HU, other. */
 window.STATS = {
   stories: 59,      // историй помощи
   ongoing: 27,      // помощь продолжается
   onko: 7,          // сопровождение при онкологическом лечении
   since_open: 18,   // человек получили помощь с открытия Diaspora Care z. s. (на сайте «+18»)
   services: { psy: 50, health: 39, housing: 32, adapt: 26, other: 24, offices: 21, work: 13 },
-  countries: { UA: 49, MD: 5, RU: 3, other: 2 }
+  countries: { UA: 49, MD: 5, RU: 3, HU: 1, other: 2 }
 };
 
 /* Проекты. status: "planned" — «Готовим», "active" — «Идёт», "done" — «Завершён».
