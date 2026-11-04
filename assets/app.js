@@ -559,8 +559,8 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
 (function stats(){
   const S = window.STATS; if(!S) return;
   const nf = new Intl.NumberFormat(LANG === "uk" ? "uk-UA" : LANG);
-  $("#statRow").innerHTML = [["stories","stat_stories"],["ongoing","stat_ongoing"],["onko","stat_onko"]]
-    .filter(r => S[r[0]] > 0).map(r => '<div class="stat"><b data-count="'+(+S[r[0]])+'">0</b><span>'+esc(L[r[1]])+'</span></div>').join("");
+  $("#statRow").innerHTML = [["stories","stat_stories"],["ongoing","stat_ongoing"],["onko","stat_onko"],["since_open","stat_since_open","+"]]
+    .filter(r => S[r[0]] > 0 && L[r[1]]).map(r => '<div class="stat'+(r[2] ? ' stat-new' : '')+'"><b data-count="'+(+S[r[0]])+'" data-prefix="'+(r[2] || "")+'">0</b><span>'+esc(L[r[1]])+'</span></div>').join("");
   function bars(el, obj, prefix){
     const items = Object.keys(obj || {}).map(k => [k, +obj[k] || 0]).filter(x => x[1] > 0 && L[prefix + x[0]]).sort((a, b) => b[1] - a[1]);
     const max = Math.max(1, ...items.map(x => x[1]));
@@ -573,9 +573,10 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
     $$(".fill", root).forEach(f => f.style.width = f.dataset.w + "%");
     $$("[data-count]", root).forEach(b => {
       const to = +b.dataset.count;
-      if(reduce || isEasy()){ b.textContent = nf.format(to); return; }
+      const pre = b.dataset.prefix || "";
+      if(reduce || isEasy()){ b.textContent = pre + nf.format(to); return; }
       const t0 = performance.now();
-      const step = t => { const k = Math.min(1, (t - t0) / 1200); b.textContent = nf.format(Math.round(to * (1 - Math.pow(1 - k, 3)))); if(k < 1) requestAnimationFrame(step); };
+      const step = t => { const k = Math.min(1, (t - t0) / 1200); b.textContent = pre + nf.format(Math.round(to * (1 - Math.pow(1 - k, 3)))); if(k < 1) requestAnimationFrame(step); };
       requestAnimationFrame(step);
     });
   };

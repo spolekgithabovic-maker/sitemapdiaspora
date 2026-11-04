@@ -86,6 +86,7 @@ window.STATS = {
   stories: 59,      // историй помощи
   ongoing: 27,      // помощь продолжается
   onko: 7,          // сопровождение при онкологическом лечении
+  since_open: 18,   // человек получили помощь с открытия Diaspora Care z. s. (на сайте «+18»)
   services: { psy: 50, health: 39, housing: 32, adapt: 26, other: 24, offices: 21, work: 13 },
   countries: { UA: 49, MD: 5, RU: 3, other: 2 }
 };

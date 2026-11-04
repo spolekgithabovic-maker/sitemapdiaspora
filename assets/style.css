@@ -531,7 +531,9 @@ footer.site{padding:64px 0 0; background:linear-gradient(180deg, var(--bg) 0%, v
 /* ---------- Projects / stats ---------- */
 .projects{background:linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 18%, var(--bg-2) 82%, var(--bg) 100%);}
 .stat-row{display:grid; gap:16px; max-width:1000px; margin:0 auto 22px;}
-@media(min-width:760px){.stat-row{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:760px){.stat-row{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:1000px){.stat-row{grid-template-columns:repeat(4,1fr);}}
+.stat-new{border-color:var(--orange-400);}
 .stat{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:4px;}
 .stat b{font:700 clamp(2.4rem,5vw,3.2rem)/1 var(--font-head); color:var(--orange-600); font-variant-numeric:tabular-nums;}
 .stat:nth-child(2) b{color:var(--blue-vivid);}
