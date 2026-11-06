@@ -230,13 +230,13 @@ function onVoices(){
   if(!voices.length) return;
   addListenButtons();
   const czOk = hasVoice("cs");
-  $("#phNoVoice").hidden = czOk;
+  const nv = $("#phNoVoice"); if(nv) nv.hidden = czOk;
   document.body.classList.toggle("no-cz-voice", !czOk);
   $$(".js-play").forEach(b => b.hidden = !czOk);
   $("#bigPlay").hidden = !czOk;
 }
 if(synth){ onVoices(); synth.addEventListener ? synth.addEventListener("voiceschanged", onVoices) : (synth.onvoiceschanged = onVoices); }
-else { $("#phNoVoice").hidden = false; $("#bigPlay").hidden = true; }
+else { const nv = $("#phNoVoice"); if(nv) nv.hidden = false; $("#bigPlay").hidden = true; }
 
 /* ---------- Разговорник ---------- */
 const CATS = ["basic","office","doctor","school","home","work"];
@@ -254,6 +254,7 @@ function renderPhrases(){
   phTabs.innerHTML = CATS.map(c => '<button type="button" role="tab" class="tab" aria-selected="'+(c===curCat)+'" data-cat="'+c+'">'+esc(L["ph_c_"+c])+'</button>').join("");
   phGrid.innerHTML = PHR.filter(p => p[0] === curCat).map(phraseCard).join("");
 }
+if(phTabs && phGrid){
 phTabs.addEventListener("click", e => { const b = e.target.closest(".tab"); if(!b) return; curCat = b.dataset.cat; renderPhrases(); });
 phTabs.addEventListener("keydown", e => {
   if(!["ArrowRight","ArrowLeft"].includes(e.key)) return;
@@ -261,6 +262,7 @@ phTabs.addEventListener("keydown", e => {
   curCat = CATS[(i + CATS.length) % CATS.length]; renderPhrases(); $('.tab[aria-selected="true"]', phTabs).focus();
 });
 renderPhrases();
+}
 const big = $("#bigPhrase");
 document.addEventListener("click", e => {
   const play = e.target.closest(".js-play"); if(play){ speak(play.dataset.cz, "cs", play, .85); return; }
@@ -325,7 +327,7 @@ function renderNav(focus){
   navEl.innerHTML = h;
   if(focus){ const f = $("h3", navEl); if(f){ f.tabIndex = -1; f.focus({preventScroll:true}); } navEl.scrollIntoView({behavior: reduce?"auto":"smooth", block:"start"}); }
 }
-navEl.addEventListener("click", e => {
+if(navEl) navEl.addEventListener("click", e => {
   const b = e.target.closest("button"); if(!b) return;
   if(b.dataset.topic){ const k = b.dataset.topic; nav.topics.has(k) ? nav.topics.delete(k) : nav.topics.add(k); nav.err = false; b.setAttribute("aria-pressed", String(nav.topics.has(k))); const er = $(".nav-error", navEl); if(er) er.remove(); return; }
   if(b.dataset.time){ nav.time = b.dataset.time; renderNav(); return; }
@@ -344,16 +346,18 @@ navEl.addEventListener("click", e => {
   }
 });
 addEventListener("afterprint", () => document.body.classList.remove("print-plan"));
-renderNav();
+if(navEl) renderNav();
 
 function goToMessage(text, replace){
   const m = $("#fMsg");
+  if(!m){ location.href = "./#contact"; return; }
   if(replace || !m.value.trim()) m.value = text;
   $("#contact").scrollIntoView({behavior: reduce?"auto":"smooth"});
   const f = $("#fMsgField"); f.classList.remove("flash"); void f.offsetWidth; f.classList.add("flash");
   setTimeout(() => { m.focus({preventScroll:true}); m.setSelectionRange(m.value.length, m.value.length); }, reduce?0:700);
 }
-$("#partnerBtn").addEventListener("click", e => { e.preventDefault(); goToMessage(L.prefill_partner+"\n\n"); });
+const partnerBtn = $("#partnerBtn");
+if(partnerBtn) partnerBtn.addEventListener("click", e => { e.preventDefault(); goToMessage(L.prefill_partner+"\n\n"); });
 
 /* ---------- Волонтёры ---------- */
 const volBtn = $("#volBtn"), volWrap = $("#volFormWrap");
@@ -361,7 +365,7 @@ function openVol(scroll){
   volWrap.classList.add("open"); volBtn.setAttribute("aria-expanded","true");
   if(scroll) setTimeout(() => { volWrap.scrollIntoView({behavior: reduce?"auto":"smooth", block:"start"}); $("#vName").focus({preventScroll:true}); }, 50);
 }
-volBtn.addEventListener("click", () => volWrap.classList.contains("open") ? (volWrap.classList.remove("open"), volBtn.setAttribute("aria-expanded","false")) : openVol(true));
+if(volBtn) volBtn.addEventListener("click", () => volWrap.classList.contains("open") ? (volWrap.classList.remove("open"), volBtn.setAttribute("aria-expanded","false")) : openVol(true));
 $$("[data-open-vol]").forEach(a => a.addEventListener("click", () => openVol(false)));
 
 /* ---------- Встречи ---------- */
@@ -377,7 +381,7 @@ function icsFor(ev){
     "DESCRIPTION:"+clean(ev.text&&ev.text[LANG]),"END:VEVENT","END:VCALENDAR"].join("\r\n");
 }
 (function renderEvents(){
-  const box = $("#eventList");
+  const box = $("#eventList"); if(!box) return;
   const today = new Date(); today.setHours(0,0,0,0);
   const list = (window.EVENTS||[]).filter(ev => ev && ev.date && new Date(ev.date+"T23:59") >= today).sort((a,b) => a.date.localeCompare(b.date));
   if(!list.length){
@@ -426,8 +430,8 @@ function icsFor(ev){
 (function donate(){
   const D = window.DONATE || {};
   const dUrl = safeUrl(D.url);
-  if(dUrl){ const b = $("#donateBtn"); b.href = dUrl; b.hidden = false; $("#donateNote").hidden = true; }
-  if(D.goal > 0){
+  if(dUrl && $("#donateBtn")){ const b = $("#donateBtn"); b.href = dUrl; b.hidden = false; $("#donateNote").hidden = true; }
+  if(D.goal > 0 && $("#goalBox")){
     const nf = new Intl.NumberFormat(LANG === "uk" ? "uk-UA" : LANG);
     $("#goalBox").hidden = false;
     $("#goalTitle").textContent = (D.title && D.title[LANG]) || "";
@@ -441,6 +445,7 @@ function icsFor(ev){
 /* ---------- Новости ---------- */
 (function news(){
   const N = window.NEWS || [];
+  if(!$("#newsGrid")) return;
   if(!N.length){ $("#news").hidden = true; return; }
   if(!N.some(n => n.example)) $("#newsNote").hidden = true;
   const IC = {news:'<path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5"/>',
@@ -501,6 +506,7 @@ function makeCaptcha(box){
 /* ---------- Формы → FormSubmit ---------- */
 const clean = (s, max) => String(s || "").replace(/[<>]/g, "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim().slice(0, max || 4000);
 function wireForm(form, statusEl, btn, build, check, okKey, submitKey, endpoint){
+  if(!form) return;
   const setStatus = (k, t) => { statusEl.className = "form-status " + k; statusEl.textContent = t; };
   const capBox = $("[data-captcha]", form);
   const cap = capBox ? makeCaptcha(capBox) : null;
@@ -541,6 +547,7 @@ wireForm(vf, $("#volStatus"), $("#vSubmit"), () => ({
 }), () => checked("ways").length ? null : L.vf_pick, "vf_ok", "vf_submit");
 const ff = $("#fbForm");
 (() => { const ys = $("#fbYear"), ms = $("#fbMonth"), now = new Date().getFullYear();
+  if(!ys || !ms) return;
   for(let y = now; y >= 2014; y--){ const o = document.createElement("option"); o.value = String(y); o.textContent = String(y); ys.appendChild(o); }
   for(let m = 1; m <= 12; m++){ const o = document.createElement("option"); o.value = String(m).padStart(2, "0"); let n = String(m); try{ n = new Intl.DateTimeFormat(LANG === "uk" ? "uk-UA" : LANG, {month:"long"}).format(new Date(2000, m - 1, 15)); }catch(e){} o.textContent = n; ms.appendChild(o); }
   const cs = $("#fbCity");
@@ -557,7 +564,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
 
 /* ---------- Помощь в цифрах ---------- */
 (function stats(){
-  const S = window.STATS; if(!S) return;
+  const S = window.STATS; if(!S || !$("#statRow")) return;
   const nf = new Intl.NumberFormat(LANG === "uk" ? "uk-UA" : LANG);
   $("#statRow").innerHTML = [["stories","stat_stories"],["ongoing","stat_ongoing"],["onko","stat_onko"],["since_open","stat_since_open","+"]]
     .filter(r => S[r[0]] > 0 && L[r[1]]).map(r => '<div class="stat'+(r[2] ? ' stat-new' : '')+'"><b data-count="'+(+S[r[0]])+'" data-prefix="'+(r[2] || "")+'">0</b><span>'+esc(L[r[1]])+'</span></div>').join("");
@@ -589,7 +596,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
 /* ---------- Проекты ---------- */
 (function projects(){
   const P = (window.PROJECTS || []).filter(p => p && p.title && p.title[LANG]);
-  const box = $("#projectList");
+  const box = $("#projectList"); if(!box) return;
   if(!P.length){ box.innerHTML = '<div class="empty-state">'+svgI('<path d="M4 7h16v12H4z"/><path d="M9 7V5h6v2M4 12h16"/>')+'<p>'+esc(L.projects_empty)+'</p></div>'; return; }
   box.innerHTML = '<div class="project-grid">'+P.map(p => { const st = ["planned","active","done"].includes(p.status) ? p.status : ""; return '<article class="card project">'+(st ? '<span class="prj-status prj-'+st+'">'+esc(L["prj_"+st])+'</span>' : '')+'<h3>'+esc(p.title[LANG])+'</h3><p>'+esc((p.text && p.text[LANG]) || "")+'</p></article>'; }).join("")+'</div>';
 })();
@@ -608,7 +615,7 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
     return ' · <span class="fb-when-tag">'+(label ? esc(L.fb_help_label)+': ' : '')+esc(when)+'</span>';
   };
   const cityOf = f => { const c = String(txt(f.city) || f.help_city || "").trim(); return c && c !== "—" ? ' · <span class="fb-city">'+esc(c.slice(0, 40))+'</span>' : ""; };
-  const box = $("#fbList");
+  const box = $("#fbList"); if(!box) return;
   /* text — строка или переводы { ru, uk, cs, en }; показываем на языке страницы */
   const txt = t => t && typeof t === "object" ? (t[LANG] || t.cs || t.ru || t.uk || t.en || "") : String(t || "");
   const render = list => {
