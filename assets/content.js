@@ -33,7 +33,7 @@ window.FEEDBACK_API = "https://script.google.com/macros/s/AKfycbyYVOdFTf41KACYgq
    что пожертвования подключим позже. goal и raised — суммы в Kč;
    если goal = 0, шкала не показывается. */
 window.DONATE = {
-  url: "",            // ссылка на проект на Darujme.cz
+  url: "https://donio.cz/pribeh/45961",   // сбор на Donio.cz
   goal: 0,
   raised: 0,
   title: { ru: "", uk: "", cs: "", en: "" }  // например "Встречи арт-терапии"
