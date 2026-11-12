@@ -571,13 +571,16 @@ wireForm(ff, $("#fbStatus"), $("#fbSubmit"), () => ({
   const lbl = (k, n) => (pr && L[k + "_" + pr.select(n)]) || L[k];
   $("#statRow").innerHTML = [["stories","stat_stories"],["ongoing","stat_ongoing"],["onko","stat_onko"],["since_open","stat_since_open","+"]]
     .filter(r => S[r[0]] > 0 && L[r[1]]).map(r => '<div class="stat'+(r[2] ? ' stat-new' : '')+'"><b data-count="'+(+S[r[0]])+'" data-prefix="'+(r[2] || "")+'">0</b><span>'+esc(lbl(r[1], +S[r[0]]))+'</span></div>').join("");
-  function bars(el, obj, prefix){
+  /* Графики — в процентах: направления от числа историй (S.base), страны — доля от суммы */
+  const pf = new Intl.NumberFormat(LANG === "uk" ? "uk-UA" : LANG, {style:"percent", maximumFractionDigits:0});
+  function bars(el, obj, prefix, base){
     const items = Object.keys(obj || {}).map(k => [k, +obj[k] || 0]).filter(x => x[1] > 0 && L[prefix + x[0]]).sort((a, b) => (prefix === "c_" ? (a[0] === "other") - (b[0] === "other") : 0) || b[1] - a[1]);   // «Другие страны» всегда в конце
-    const max = Math.max(1, ...items.map(x => x[1]));
-    el.innerHTML = items.map(x => '<li title="'+esc(L[prefix + x[0]])+': '+nf.format(x[1])+'"><span class="lbl">'+esc(L[prefix + x[0]])+'</span><span class="val">'+nf.format(x[1])+'</span>'+
-      '<span class="track" aria-hidden="true"><span class="fill" data-w="'+(x[1] / max * 100).toFixed(1)+'"></span></span></li>').join("");
+    const total = base || items.reduce((t, x) => t + x[1], 0) || 1;
+    el.innerHTML = items.map(x => { const p = Math.min(1, x[1] / total);
+      return '<li title="'+esc(L[prefix + x[0]])+': '+pf.format(p)+'"><span class="lbl">'+esc(L[prefix + x[0]])+'</span><span class="val">'+pf.format(p)+'</span>'+
+      '<span class="track" aria-hidden="true"><span class="fill" data-w="'+(p * 100).toFixed(1)+'"></span></span></li>'; }).join("");
   }
-  bars($("#barServices"), S.services, "s_");
+  bars($("#barServices"), S.services, "s_", +S.base || 0);
   bars($("#barCountries"), S.countries, "c_");
   const go = root => {
     $$(".fill", root).forEach(f => f.style.width = f.dataset.w + "%");
