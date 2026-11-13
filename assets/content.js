@@ -34,9 +34,9 @@ window.FEEDBACK_API = "https://script.google.com/macros/s/AKfycbyYVOdFTf41KACYgq
    если goal = 0, шкала не показывается. */
 window.DONATE = {
   url: "https://donio.cz/pribeh/45961",   // сбор на Donio.cz
-  goal: 0,
-  raised: 0,
-  title: { ru: "", uk: "", cs: "", en: "" }  // например "Встречи арт-терапии"
+  goal: 450000,  // цель сбора, Kč
+  raised: 300,   // сколько собрано: обновляйте по странице сбора на Donio
+  title: { ru: "Сбор: переводчик для больных", uk: "Збір: перекладач для хворих", cs: "Sbírka: tlumočník pro nemocné", en: "Fundraiser: an interpreter for the sick" }
 };
 
 /* Пожертвование на банковский счёт. QR-код (assets/img/qr-platba.svg) создан

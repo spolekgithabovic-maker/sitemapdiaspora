@@ -118,7 +118,7 @@
   document.addEventListener("click", function(e){
     var a = e.target.closest ? e.target.closest("a, button") : null;
     if(!a) return;
-    if(a.id === "donateBtn") window.dcTrack("donate_click", { method: "online" });
+    if(a.id === "donateBtn" || a.classList.contains("js-donate")) window.dcTrack("donate_click", { method: "online" });
     else if(a.classList.contains("bank-copy")) window.dcTrack("donate_bank_copy", {});
     else if((a.getAttribute("href") || "").indexOf("mailto:") === 0) window.dcTrack("email_click", {});
     else if((a.getAttribute("href") || "").indexOf("tel:") === 0) window.dcTrack("phone_click", {});

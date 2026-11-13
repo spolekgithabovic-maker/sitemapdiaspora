@@ -431,6 +431,7 @@ function icsFor(ev){
   const D = window.DONATE || {};
   const dUrl = safeUrl(D.url);
   if(dUrl && $("#donateBtn")){ const b = $("#donateBtn"); b.href = dUrl; b.hidden = false; $("#donateNote").hidden = true; }
+  if(dUrl) document.querySelectorAll(".js-donate").forEach(a => { a.href = dUrl; });
   if(D.goal > 0 && $("#goalBox")){
     const nf = new Intl.NumberFormat(LANG === "uk" ? "uk-UA" : LANG);
     $("#goalBox").hidden = false;
